@@ -6,61 +6,127 @@ namespace Rant.Vocabulary.Lingusitics.German
 {
     internal static class GermanAdjectiveInflector
     {
-        private static readonly Dictionary<string, string> specialComparatives = new Dictionary<string, string>(StringComparer.InvariantCultureIgnoreCase)
-        {
-            {"gut", "besser"},
-            {"hoch", "höher" }
-        };
-
-        private static readonly Dictionary<string, string> specialSuperlatives = new Dictionary<string, string>(StringComparer.InvariantCultureIgnoreCase)
-        {
-            {"gut", "best"}
-        };
-
-        private static readonly HashSet<string> umlautWords =
-            new HashSet<string>(StringComparer.InvariantCultureIgnoreCase)
-            {
-                "alt", "arm", "dumm", "gesund", "grob", "groß", "hart",
-                "hoch", "jung", "kalt", "klug", "kurz", "lang", "oft",
-                "scharf", "schwach", "schwarz", "stark", "warm"
-            };
-
         public static string Inflect(
             string adjBase,
             Gender gender,
             InflectionType type,
             GrammaticalCase fall,
-            Comparison comparison)
+            bool plural)
         {
-
-            return adjBase;
-        }
-
-        private static string GetComparisonForm(string adjBase, Comparison comparison)
-        {
-            switch (comparison)
+            if (plural)
             {
-                case Comparison.Comparative:
-                    {
-                        string result;
-                        if (!specialComparatives.TryGetValue(adjBase, out result))
-                        {
-                            result = Fuse(adjBase, "er");
-                        }
-                        return result;
-                    }
-                case Comparison.Superlative:
-                    {
-                        string result;
-                        if (!specialSuperlatives.TryGetValue(adjBase, out result))
-                        {
-                            result = Fuse(adjBase, "st");
-                        }
-                        return result;
-                    }
-                default:
-                    return adjBase;
+                if (type == InflectionType.Strong &&
+                    (fall == GrammaticalCase.Nominative || fall == GrammaticalCase.Accusative))
+                {
+                    return Fuse(adjBase, "e");
+                }
+                return Fuse(adjBase, "en");
             }
+
+            switch (type)
+            {
+                case InflectionType.Strong:
+                    switch (fall)
+                    {
+                        case GrammaticalCase.Nominative:
+                            switch (gender)
+                            {
+                                case Gender.Masculine:
+                                    return Fuse(adjBase, "er");
+                                case Gender.Feminine:
+                                    return Fuse(adjBase, "e");
+                                case Gender.Neuter:
+                                    return Fuse(adjBase, "es");
+                            }
+                            break;
+                        case GrammaticalCase.Accusative:
+                            switch (gender)
+                            {
+                                case Gender.Masculine:
+                                    return Fuse(adjBase, "en");
+                                case Gender.Feminine:
+                                    return Fuse(adjBase, "e");
+                                case Gender.Neuter:
+                                    return Fuse(adjBase, "es");
+                            }
+                            break;
+                        case GrammaticalCase.Dative:
+                            switch (gender)
+                            {
+                                case Gender.Masculine:
+                                    return Fuse(adjBase, "em");
+                                case Gender.Feminine:
+                                    return Fuse(adjBase, "er");
+                                case Gender.Neuter:
+                                    return Fuse(adjBase, "em");
+                            }
+                            break;
+                        case GrammaticalCase.Genitive:
+                            switch (gender)
+                            {
+                                case Gender.Masculine:
+                                    return Fuse(adjBase, "en");
+                                case Gender.Feminine:
+                                    return Fuse(adjBase, "er");
+                                case Gender.Neuter:
+                                    return Fuse(adjBase, "en");
+                            }
+                            break;
+                    }
+                    break;
+                case InflectionType.Mixed:
+                    switch (fall)
+                    {
+                        case GrammaticalCase.Nominative:
+                            switch (gender)
+                            {
+                                case Gender.Masculine:
+                                    return Fuse(adjBase, "er");
+                                case Gender.Feminine:
+                                    return Fuse(adjBase, "e");
+                                case Gender.Neuter:
+                                    return Fuse(adjBase, "es");
+                            }
+                            break;
+                        case GrammaticalCase.Accusative:
+                            switch (gender)
+                            {
+                                case Gender.Masculine:
+                                    return Fuse(adjBase, "en");
+                                case Gender.Feminine:
+                                    return Fuse(adjBase, "e");
+                                case Gender.Neuter:
+                                    return Fuse(adjBase, "es");
+                            }
+                            break;
+                        case GrammaticalCase.Dative:
+                        case GrammaticalCase.Genitive:
+                            return Fuse(adjBase, "en");
+                    }
+                    break;
+                case InflectionType.Weak:
+                    switch (fall)
+                    {
+                        case GrammaticalCase.Nominative:
+                            return Fuse(adjBase, "e");
+                        case GrammaticalCase.Accusative:
+                            switch (gender)
+                            {
+                                case Gender.Masculine:
+                                    return Fuse(adjBase, "en");
+                                case Gender.Feminine:
+                                    return Fuse(adjBase, "e");
+                                case Gender.Neuter:
+                                    return Fuse(adjBase, "e");
+                            }
+                            break;
+                        case GrammaticalCase.Dative:
+                        case GrammaticalCase.Genitive:
+                            return Fuse(adjBase, "en");
+                    }
+                    break;
+            }
+            return adjBase;
         }
 
         private static string Fuse(string a, string b)
