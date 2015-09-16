@@ -12,6 +12,11 @@ namespace Rant.Vocabulary
         private readonly Dictionary<CarrierComponent, HashSet<string>> _components;
 
         /// <summary>
+        /// The rank of the carrier. Higher ranks are executed earlier. Set to zero to disable ranking.
+        /// </summary>
+        public int Rank { get; set; } = 0;
+
+        /// <summary>
         /// Creates an empty carrier.
         /// </summary>
         public Carrier()

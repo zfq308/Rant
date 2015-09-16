@@ -13,6 +13,7 @@ namespace Rant.Vocabulary.Lingusitics.German
             GrammaticalCase fall,
             bool plural)
         {
+            if (adjBase == null) throw new ArgumentNullException(nameof(adjBase));
             if (plural)
             {
                 if (type == InflectionType.Strong &&
