@@ -8,7 +8,6 @@ namespace Rant.Vocabulary
 	{
 		private readonly T[] _mainArray;
 		private T[] _a;
-		private T[] _b;
 		private int _size;
 
 		public Sieve(IEnumerable<T> collection)
@@ -17,7 +16,6 @@ namespace Rant.Vocabulary
 			_mainArray = collection.ToArray();
 			_size = _mainArray.Length;
 			_a = new T[_mainArray.Length];
-			_b = new T[_mainArray.Length];
 			Array.Copy(_mainArray, _a, _mainArray.Length);
 		}
 
@@ -29,17 +27,22 @@ namespace Rant.Vocabulary
 		{
 			if (predicate == null) throw new ArgumentNullException(nameof(predicate));
 			int n = 0;
-			// Filter operations sift passing items from one array to the other.
-			// Then the destination array is the one that is indexed.
-			// The arrays are swapped after each filter.
-			for (int i = 0; i < _size; i++)
+			if (_size == _mainArray.Length)
 			{
-				if (predicate(_a[i])) _b[n++] = _a[i];
+				for (int i = 0; i < _size; i++)
+				{
+					if (predicate(_mainArray[i])) _a[n++] = _mainArray[i];
+				}
 			}
+			else
+			{
+				for (int i = 0; i < _size; i++)
+				{
+					if (predicate(_a[i])) _a[n++] = _a[i];
+				}
+			}
+			
 			_size = n;
-			var swap = _b;
-			_b = _a;
-			_a = swap;
 			return _size > 0;
 		}
 
