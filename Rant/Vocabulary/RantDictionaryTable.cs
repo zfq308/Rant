@@ -16,7 +16,8 @@ namespace Rant.Vocabulary
         private readonly string _name;
         private readonly string _language = "en-US";
         private readonly string[] _subtypes;
-        private readonly HashSet<string> _hidden = new HashSet<string>(); 
+        private readonly HashSet<string> _hidden = new HashSet<string>();
+	    private readonly Dictionary<string, List<RantDictionaryEntry>> _classCache = new Dictionary<string, List<RantDictionaryEntry>>(); 
         private RantDictionaryEntry[] _entries;
 
         /// <summary>
@@ -38,6 +39,7 @@ namespace Rant.Vocabulary
             _subtypes = subtypes;
             _name = name;
             _entries = (entries as RantDictionaryEntry[]) ?? entries.ToArray();
+			PopulateCache();
         }
 
         /// <summary>
@@ -64,7 +66,32 @@ namespace Rant.Vocabulary
             _name = name;
             _entries = (entries as RantDictionaryEntry[]) ?? entries.ToArray();
             foreach (var hiddenClass in hiddenClasses.Where(Util.ValidateName)) _hidden.Add(hiddenClass);
+			PopulateCache();
         }
+
+	    private void PopulateCache()
+	    {
+			// This speeds up class filters by caching search results for every class.
+			List<RantDictionaryEntry> set;
+		    foreach (var entry in _entries)
+		    {
+			    foreach (var cl in entry.GetClasses())
+			    {
+				    if (!_classCache.TryGetValue(cl, out set))
+				    {
+					    _classCache[cl] = set = new List<RantDictionaryEntry>();
+				    }
+				    set.Add(entry);
+			    }
+		    }
+	    }
+		
+		internal IEnumerable<RantDictionaryEntry> GetCachedEntries(string cl)
+		{
+			List<RantDictionaryEntry> set;
+			if (!_classCache.TryGetValue(cl, out set)) yield break;
+			foreach (var entry in set) yield return entry;
+		}     
 
         /// <summary>
         /// Gets the entries stored in the table.
@@ -145,6 +172,7 @@ namespace Rant.Vocabulary
                     }
             }
 
+			PopulateCache();
             return true;
         }
 

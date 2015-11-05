@@ -304,6 +304,7 @@
     <Compile Include="RantOutputEntry.cs" />
     <Compile Include="RantPackageDependency.cs" />
     <Compile Include="RantPackageVersion.cs" />
+    <Compile Include="RantResourceContainer.cs" />
     <Compile Include="RantUtils.cs" />
     <Compile Include="Stringes\Lexer.cs" />
     <Compile Include="Stringes\StringeUtils.cs" />
@@ -391,6 +392,7 @@
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>
