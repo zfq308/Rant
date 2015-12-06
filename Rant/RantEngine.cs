@@ -43,6 +43,7 @@ namespace Rant
 		private readonly Dictionary<string, RantModule> _userModules = new Dictionary<string, RantModule>();
         private readonly Dictionary<string, RantPattern> _patternCache = new Dictionary<string, RantPattern>();
 	    private readonly HashSet<RantPackageDependency> _loadedPackages = new HashSet<RantPackageDependency>(); 
+		private readonly Dictionary<string, SeedPool> _seedPools = new Dictionary<string, SeedPool>(); 
 		private RantDependencyResolver _resolver = new RantDependencyResolver();
 		private RantDictionary _dictionary = new RantDictionary();
 
@@ -74,7 +75,48 @@ namespace Rant
             set { Objects[name] = value; }
         }
 
-        /// <summary>
+		/// <summary>
+		/// Returns the seed pool with the specified name, or null if it doesn't exist.
+		/// </summary>
+		/// <param name="name">The name of the seed pool to retrieve.</param>
+		/// <returns></returns>
+	    public SeedPool GetSeedPool(string name)
+	    {
+		    if (name == null) throw new ArgumentNullException(nameof(name));
+		    SeedPool sp;
+		    return _seedPools.TryGetValue(name, out sp) ? sp : null;
+	    }
+
+		/// <summary>
+		/// Adds the specified seed pool to the engine, if another one with the same name doesn't already exist.
+		/// </summary>
+		/// <param name="sp">The seed pool to add.</param>
+		/// <returns></returns>
+	    public bool AddSeedPool(SeedPool sp)
+	    {
+		    if (sp == null) throw new ArgumentNullException(nameof(sp));
+		    if (_seedPools.ContainsKey(sp.Name)) return false;
+		    _seedPools[sp.Name] = sp;
+		    return true;
+	    }
+
+		/// <summary>
+		/// Removes the seed pool with the specified name from the engine.
+		/// </summary>
+		/// <param name="name">The name of the seed pool to remove.</param>
+		/// <returns></returns>
+	    public bool RemoveSeedPool(string name)
+	    {
+		    if (name == null) throw new ArgumentNullException(nameof(name));
+		    return _seedPools.Remove(name);
+	    }
+
+		/// <summary>
+		/// Gets the seed pools currently loaded in the engine.
+		/// </summary>
+	    public IEnumerable<SeedPool> SeedPools => _seedPools.Values; 
+
+	    /// <summary>
         /// The currently set flags.
         /// </summary>
         public readonly HashSet<string> Flags = new HashSet<string>();

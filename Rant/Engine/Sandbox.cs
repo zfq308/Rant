@@ -26,6 +26,7 @@ namespace Rant.Engine
         private readonly OutputWriter _baseOutput;
         private readonly Stack<OutputWriter> _outputs;
         private readonly RNG _rng;
+	    private readonly Stack<RNG> _spRNGStack; 
         private readonly long _startingGen;
         private readonly RantFormat _format;
         private readonly RantPattern _pattern;
@@ -63,7 +64,7 @@ namespace Rant.Engine
         /// <summary>
         /// Gets the random number generator in use by the interpreter.
         /// </summary>
-        public RNG RNG => _rng;
+        public RNG RNG => _spRNGStack.Count > 0 ? _spRNGStack.Peek() : _rng;
 
 		/// <summary>
 		/// The starting generation of the RNG.
@@ -157,6 +158,7 @@ namespace Rant.Engine
             _outputs = new Stack<OutputWriter>();
             _outputs.Push(_baseOutput);
             _rng = rng;
+			_spRNGStack = new Stack<RNG>();
             _startingGen = rng.Generation;
             _pattern = pattern;
             _objects = new ObjectStack(engine.Objects);
@@ -245,6 +247,27 @@ namespace Rant.Engine
         }
 
         public void SetYield() => shouldYield = true;
+
+	    public bool EnableSeedPool(string name)
+	    {
+		    var sp = _engine.GetSeedPool(name);
+		    if (sp == null) return false;
+            _spRNGStack.Push(new RNG(sp.GetNext(_rng)));
+		    return true;
+	    }
+
+	    public bool EnableSeedPool(string name, string seed)
+	    {
+			var sp = _engine.GetSeedPool(name);
+			if (sp == null) return false;
+			_spRNGStack.Push(sp[seed]);
+			return true;
+		}
+
+	    public void DisableLastSeedPool()
+	    {
+		    if (_spRNGStack.Any()) _spRNGStack.Pop();
+	    }
 
         private bool HandleRichardBreak(Stack<IEnumerator<RantAction>> callStack, Stack<RantAction> actionStack, IEnumerator<RantAction> action)
         {

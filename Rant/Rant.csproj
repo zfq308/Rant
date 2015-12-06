@@ -329,6 +329,7 @@
     <Compile Include="RantPackageVersion.cs" />
     <Compile Include="RantPatternArgs.cs" />
     <Compile Include="RantUtils.cs" />
+    <Compile Include="SeedPool.cs" />
     <Compile Include="Stringes\Lexer.cs" />
     <Compile Include="Stringes\StringeUtils.cs" />
     <Compile Include="Tuple.cs" />

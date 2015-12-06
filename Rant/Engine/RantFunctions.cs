@@ -998,5 +998,37 @@ namespace Rant.Engine
 				throw new RantRuntimeException(sb.Pattern, sb.CurrentAction.Range, $"No module is defined in {file}.");
 			sb.Modules[Path.GetFileNameWithoutExtension(name)] = pattern.Module;
 		}
-    }
+
+		[RantFunction("pool")]
+		[RantDescription("Runs a sub-pattern under a random seed returned by the specified seed pool. If it doesn't exist, the sub-pattern is ignored.")]
+	    private static IEnumerator<RantAction> SeedPool(Sandbox sb, 
+			[RantDescription("The seed pool to use.")]
+			string name, 
+			[RantDescription("The sub-pattern to run under the seed.")]
+			RantAction pattern)
+	    {
+		    if (Util.IsNullOrWhiteSpace(name))
+				throw new RantRuntimeException(sb.Pattern, sb.CurrentAction.Range, "Seed pool name cannot be empty or composed entirely of whitespace.");
+			if (!sb.EnableSeedPool(name)) yield break;
+		    yield return pattern;
+			sb.DisableLastSeedPool();
+	    }
+
+		[RantFunction("pool")]
+		[RantDescription("Runs a sub-pattern under a hash-indexed seed returned by the specified seed pool. If it doesn't exist, the sub-pattern is ignored.")]
+		private static IEnumerator<RantAction> SeedPool(Sandbox sb,
+			[RantDescription("The seed pool to use.")]
+			string name,
+			[RantDescription("A string that will be hashed and used to choose the seed.")]
+			string seedName,
+			[RantDescription("The sub-pattern to run under the seed.")]
+			RantAction pattern)
+		{
+			if (Util.IsNullOrWhiteSpace(name))
+				throw new RantRuntimeException(sb.Pattern, sb.CurrentAction.Range, "Seed pool name cannot be empty or composed entirely of whitespace.");
+			if (!sb.EnableSeedPool(name, seedName)) yield break;
+			yield return pattern;
+			sb.DisableLastSeedPool();
+		}
+	}
 }
