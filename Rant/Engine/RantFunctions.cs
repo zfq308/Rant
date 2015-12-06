@@ -11,10 +11,12 @@ using Rant.Engine.Output;
 using Rant.Engine.Syntax;
 using Rant.Vocabulary;
 
+using exec = System.Collections.Generic.IEnumerator<Rant.Engine.Syntax.RantAction>;
+
 namespace Rant.Engine
 {
     // Methods representing Rant functions must be marked with [RantFunction] attribute to get registered by the engine.
-    // They may return either void or IEnumerator<RantAction> depending on your needs.
+    // They may return either void or exec depending on your needs.
     internal static class RantFunctions
     {
         private static bool Loaded = false;
@@ -124,7 +126,7 @@ namespace Rant.Engine
 
         [RantFunction("numfmt")]
         [RantDescription("Runs the specified pattern under a specific number formatting mode.")]
-        private static IEnumerator<RantAction> NumberFormatRange(Sandbox sb,
+        private static exec NumberFormatRange(Sandbox sb,
             [RantDescription("The number format to use.")]
             NumberFormat format,
             [RantDescription("The pattern to run.")]
@@ -387,7 +389,7 @@ namespace Rant.Engine
 
         [RantFunction]
         [RantDescription("Runs a pattern if the current block iteration is the first.")]
-        private static IEnumerator<RantAction> First(Sandbox sb,
+        private static exec First(Sandbox sb,
             [RantDescription("The pattern to run when the condition is met.")]
             RantAction action)
         {
@@ -397,7 +399,7 @@ namespace Rant.Engine
 
         [RantFunction]
         [RantDescription("Runs a pattern if the current block iteration is not the first.")]
-        private static IEnumerator<RantAction> NotFirst(Sandbox sb,
+        private static exec NotFirst(Sandbox sb,
             [RantDescription("The pattern to run when the condition is met.")]
             RantAction action)
         {
@@ -407,7 +409,7 @@ namespace Rant.Engine
 
         [RantFunction]
         [RantDescription("Runs a pattern if the current block iteration is the last.")]
-        private static IEnumerator<RantAction> Last(Sandbox sb,
+        private static exec Last(Sandbox sb,
             [RantDescription("The pattern to run when the condition is met.")]
             RantAction action)
         {
@@ -418,7 +420,7 @@ namespace Rant.Engine
 
         [RantFunction]
         [RantDescription("Runs a pattern if the current block iteration is not the last.")]
-        private static IEnumerator<RantAction> NotLast(Sandbox sb,
+        private static exec NotLast(Sandbox sb,
             [RantDescription("The pattern to run when the condition is met.")]
             RantAction action)
         {
@@ -429,7 +431,7 @@ namespace Rant.Engine
 
         [RantFunction]
         [RantDescription("Runs a pattern if the current block iteration is neither the first nor last.")]
-        private static IEnumerator<RantAction> Middle(Sandbox sb,
+        private static exec Middle(Sandbox sb,
             [RantDescription("The pattern to run when the condition is met.")]
             RantAction action)
         {
@@ -440,7 +442,7 @@ namespace Rant.Engine
 
         [RantFunction]
         [RantDescription("Runs a pattern if the current block iteration is either the first or last.")]
-        private static IEnumerator<RantAction> Ends(Sandbox sb,
+        private static exec Ends(Sandbox sb,
             [RantDescription("The pattern to run when the condition is met.")]
             RantAction action)
         {
@@ -516,7 +518,7 @@ namespace Rant.Engine
 
         [RantFunction]
         [RantDescription("Runs a pattern if the current block iteration is an odd number.")]
-        private static IEnumerator<RantAction> Odd(Sandbox sb,
+        private static exec Odd(Sandbox sb,
             [RantDescription("The pattern to run when the condition is met.")]
             RantAction action)
         {
@@ -526,7 +528,7 @@ namespace Rant.Engine
 
         [RantFunction]
         [RantDescription("Runs a pattern if the current block iteration is an even number.")]
-        private static IEnumerator<RantAction> Even(Sandbox sb,
+        private static exec Even(Sandbox sb,
             [RantDescription("The pattern to run when the condition is met.")]
             RantAction action)
         {
@@ -536,7 +538,7 @@ namespace Rant.Engine
 
         [RantFunction]
         [RantDescription("Returns the specified argument from the current subroutine.")]
-        private static IEnumerator<RantAction> Arg(Sandbox sb,
+        private static exec Arg(Sandbox sb,
             [RantDescription("The name of the argument to retrieve.")]
             string name)
         {
@@ -622,7 +624,7 @@ namespace Rant.Engine
 
         [RantFunction("quote", "q")]
         [RantDescription("Surrounds the specified pattern in quotes. Nested quotes use the secondary quotes defined in the format settings.")]
-        private static IEnumerator<RantAction> Quote(Sandbox sb,
+        private static exec Quote(Sandbox sb,
             [RantDescription("The pattern to run whose output will be surrounded in quotes.")]
             RantAction quoteAction)
         {
@@ -635,7 +637,7 @@ namespace Rant.Engine
 
 	    [RantFunction]
 	    [RantDescription("Opens a channel for writing and executes the specified pattern inside of it.")]
-	    private static IEnumerator<RantAction> Chan(Sandbox sb, string channelName, ChannelVisibility visibility, RantAction pattern)
+	    private static exec Chan(Sandbox sb, string channelName, ChannelVisibility visibility, RantAction pattern)
 	    {
 			sb.Output.OpenChannel(channelName, visibility);
 		    yield return pattern;
@@ -694,7 +696,7 @@ namespace Rant.Engine
 
         [RantFunction]
         [RantDescription("Runs a pattern if the current block iteration is a multiple of the specified number.")]
-        private static IEnumerator<RantAction> Nth(Sandbox sb,
+        private static exec Nth(Sandbox sb,
             [RantDescription("The interval at which the pattern should be run.")]
             int interval,
             [RantDescription("The pattern to run when the condition is satisfied.")]
@@ -707,7 +709,7 @@ namespace Rant.Engine
 
         [RantFunction]
         [RantDescription("Runs a pattern if the current block iteration is a multiple of the specified number offset by a specific amount.")]
-        private static IEnumerator<RantAction> NthO(Sandbox sb,
+        private static exec NthO(Sandbox sb,
             [RantDescription("The interval at which the pattern should be run.")]
             int interval,
             [RantDescription("The number of iterations to offset the interval by.")]
@@ -722,7 +724,7 @@ namespace Rant.Engine
 
         [RantFunction]
         [RantDescription("Runs a pattern if the current block iteration is not a multiple of the specified number.")]
-        private static IEnumerator<RantAction> NotNth(Sandbox sb,
+        private static exec NotNth(Sandbox sb,
             [RantDescription("The interval at which the pattern should not be run.")]
             int interval,
             [RantDescription("The pattern to run when the condition is satisfied.")]
@@ -735,7 +737,7 @@ namespace Rant.Engine
 
         [RantFunction]
         [RantDescription("Runs a pattern if the current block iteration is not a multiple of the specified number offset by a specific amount.")]
-        private static IEnumerator<RantAction> NotNthO(Sandbox sb,
+        private static exec NotNthO(Sandbox sb,
             [RantDescription("The interval at which the pattern should not be run.")]
             int interval,
             [RantDescription("The number of iterations to offset the interval by.")]
@@ -776,7 +778,7 @@ namespace Rant.Engine
 
         [RantFunction]
         [RantDescription("Loads and runs a pattern from cache or file.")]
-        private static IEnumerator<RantAction> Import(Sandbox sb,
+        private static exec Import(Sandbox sb,
             [RantDescription("The name or path of the pattern to load.")]
             string name)
         {
@@ -867,7 +869,7 @@ namespace Rant.Engine
 
         [RantFunction]
         [RantDescription("Executes a pattern if the current flag condition passes.")]
-        private static IEnumerator<RantAction> Then(Sandbox sb, RantAction conditionPassPattern)
+        private static exec Then(Sandbox sb, RantAction conditionPassPattern)
         {
             if (sb.Engine.Flags.All(flag => sb.ConditionFlags.Contains(flag) == sb.FlagConditionExpectedResult))
             {
@@ -877,7 +879,7 @@ namespace Rant.Engine
 
         [RantFunction]
         [RantDescription("Executes a pattern if the current flag condition fails.")]
-        private static IEnumerator<RantAction> Else(Sandbox sb, RantAction conditionFailPattern)
+        private static exec Else(Sandbox sb, RantAction conditionFailPattern)
         {
             if (sb.Engine.Flags.Any(flag => sb.ConditionFlags.Contains(flag) != sb.FlagConditionExpectedResult))
             {
@@ -901,7 +903,7 @@ namespace Rant.Engine
 
 		[RantFunction]
 		[RantDescription("Branches the internal RNG, executes the specified action, and then merges the branch.")]
-	    private static IEnumerator<RantAction> Branch(Sandbox sb, string id, RantAction branchAction)
+	    private static exec Branch(Sandbox sb, string id, RantAction branchAction)
 	    {
 		    sb.RNG.Branch(id.Hash());
 		    yield return branchAction;
@@ -1001,7 +1003,7 @@ namespace Rant.Engine
 
 		[RantFunction("pool")]
 		[RantDescription("Runs a sub-pattern under a random seed returned by the specified seed pool. If it doesn't exist, the sub-pattern is ignored.")]
-	    private static IEnumerator<RantAction> SeedPool(Sandbox sb, 
+	    private static exec SeedPool(Sandbox sb, 
 			[RantDescription("The seed pool to use.")]
 			string name, 
 			[RantDescription("The sub-pattern to run under the seed.")]
@@ -1016,7 +1018,7 @@ namespace Rant.Engine
 
 		[RantFunction("pool")]
 		[RantDescription("Runs a sub-pattern under a hash-indexed seed returned by the specified seed pool. If it doesn't exist, the sub-pattern is ignored.")]
-		private static IEnumerator<RantAction> SeedPool(Sandbox sb,
+		private static exec SeedPool(Sandbox sb,
 			[RantDescription("The seed pool to use.")]
 			string name,
 			[RantDescription("A string that will be hashed and used to choose the seed.")]
