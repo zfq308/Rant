@@ -16,7 +16,7 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)' == 'Unity'">
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
-    <AssemblyName>Rant-Unity</AssemblyName>
+    <AssemblyName>Rant.Unity</AssemblyName>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -159,7 +159,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Unity|AnyCPU'">
     <OutputPath>..\bin\UnityBuild\</OutputPath>
     <DefineConstants>TRACE;UNITY</DefineConstants>
-    <DocumentationFile>..\bin\UnityBuild\Rant.xml</DocumentationFile>
+    <DocumentationFile>..\bin\UnityBuild\Rant.Unity.xml</DocumentationFile>
     <Optimize>true</Optimize>
     <PlatformTarget>AnyCPU</PlatformTarget>
     <ErrorReport>prompt</ErrorReport>
@@ -169,7 +169,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Unity|x86'">
     <OutputPath>bin\x86\Unity\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
-    <DocumentationFile>..\bin\MainBuild\Rant.xml</DocumentationFile>
+    <DocumentationFile>..\bin\MainBuild\Rant.Unity.xml</DocumentationFile>
     <Optimize>true</Optimize>
     <PlatformTarget>x86</PlatformTarget>
     <ErrorReport>prompt</ErrorReport>
@@ -179,7 +179,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Unity|x64'">
     <OutputPath>bin\x64\Unity\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
-    <DocumentationFile>..\bin\MainBuild\Rant.xml</DocumentationFile>
+    <DocumentationFile>..\bin\MainBuild\Rant.Unity.xml</DocumentationFile>
     <Optimize>true</Optimize>
     <PlatformTarget>x64</PlatformTarget>
     <ErrorReport>prompt</ErrorReport>
