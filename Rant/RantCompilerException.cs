@@ -1,5 +1,6 @@
-﻿using Rant.Stringes;
-using System;
+﻿using System;
+
+using Rant.Internal.Stringes;
 
 namespace Rant
 {

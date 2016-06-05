@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
-using Rant.Engine.Syntax;
-using Rant.Engine.ObjectModel;
+
+using Rant.Internal.Engine.ObjectModel;
+using Rant.Internal.Engine.Syntax;
 
 namespace Rant
 {

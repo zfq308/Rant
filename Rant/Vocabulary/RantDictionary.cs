@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 
-using Rant.Engine;
+using Rant.Internal.Engine;
 
 namespace Rant.Vocabulary
 {

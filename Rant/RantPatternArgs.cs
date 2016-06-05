@@ -4,7 +4,7 @@ using System.Globalization;
 using System.Linq;
 using System.Reflection;
 
-using Rant.Engine;
+using Rant.Internal.Engine;
 
 namespace Rant
 {

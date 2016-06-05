@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
 
-using Rant.Engine;
+using Rant.Internal.Engine;
 
 namespace Rant
 {

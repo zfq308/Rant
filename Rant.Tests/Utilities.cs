@@ -3,8 +3,7 @@ using System.Linq;
 
 using NUnit.Framework;
 
-using Rant.Engine;
-using Rant.Engine.Formatters;
+using Rant.Internal.Engine;
 
 namespace Rant.Tests
 {

@@ -4,10 +4,10 @@ using System.IO;
 using System.Linq;
 using System.Text;
 
-using Rant.Engine;
-using Rant.IO;
-using Rant.IO.Bson;
-using Rant.IO.Compression;
+using Rant.Internal.Engine;
+using Rant.Internal.IO;
+using Rant.Internal.IO.Bson;
+using Rant.Internal.IO.Compression;
 using Rant.Vocabulary;
 
 namespace Rant

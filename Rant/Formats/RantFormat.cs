@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 
-using Rant.Engine;
+using Rant.Internal.Engine;
 
 namespace Rant.Formats
 {
