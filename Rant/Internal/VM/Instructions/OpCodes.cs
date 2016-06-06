@@ -52,6 +52,32 @@
 		/// Calls the specified function. Arguments should be pushed to the stack.
 		/// <para>call [short func_code]</para>
 		/// </summary>
-		Call = 0x09
+		Call = 0x09,
+		/// <summary>
+		/// Returns to caller.
+		/// <para>ret</para>
+		/// </summary>
+		Return = 0x0a,
+		/// <summary>
+		/// Creates a new channel stack, pushes it to the output stack, and sets it as the current printing destination.
+		/// <para>newout</para>
+		/// </summary>
+		NewOutput = 0x0b,
+		/// <summary>
+		/// Pops the current channel stack and pushes its contents to the object stack.
+		/// This is used by parameters for subroutines and built-in functions.
+		/// <para>retout</para>
+		/// </summary>
+		ReturnOutput = 0x0c,
+		/// <summary>
+		/// Pushes a string constant onto the stack.
+		/// <para>pushstr [int table_index]</para>
+		/// </summary>
+		PushString = 0x0d,
+		/// <summary>
+		/// Pushes a number constant onto the stack.
+		/// <para>pushnum [double value]</para>
+		/// </summary>
+		PushNum = 0x0e,
 	}
 }
