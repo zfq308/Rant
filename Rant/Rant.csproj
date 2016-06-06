@@ -319,6 +319,13 @@
     <Compile Include="Internal\IO\Compression\RangeCoder\RangeCoder.cs" />
     <Compile Include="Internal\IO\Compression\RangeCoder\RangeCoderBit.cs" />
     <Compile Include="Internal\IO\Compression\RangeCoder\RangeCoderBitTree.cs" />
+    <Compile Include="Internal\VM\Compiler\R.cs" />
+    <Compile Include="Internal\VM\Compiler\RantCompiler.cs" />
+    <Compile Include="Internal\VM\Compiler\RantLexer.cs" />
+    <Compile Include="Internal\VM\Compiler\TokenReader.cs" />
+    <Compile Include="Internal\VM\Instructions\OpCodes.cs" />
+    <Compile Include="Internal\VM\RantProgramData.cs" />
+    <Compile Include="Internal\VM\VM.cs" />
     <Compile Include="RantArgAttribute.cs" />
     <Compile Include="RantCompilerException.cs" />
     <Compile Include="RantInternalException.cs" />
@@ -328,6 +335,7 @@
     <Compile Include="RantPackageDependency.cs" />
     <Compile Include="RantPackageVersion.cs" />
     <Compile Include="RantPatternArgs.cs" />
+    <Compile Include="RantProgram.cs" />
     <Compile Include="RantUtils.cs" />
     <Compile Include="SeedPool.cs" />
     <Compile Include="Internal\Stringes\Lexer.cs" />
@@ -349,7 +357,6 @@
     <Compile Include="Internal\Unmanaged\UnmanagedOutput.cs" />
     <Compile Include="Internal\Unmanaged\UnmanagedPattern.cs" />
     <Compile Include="Internal\Unmanaged\UnmanagedRantContext.cs" />
-    <Compile Include="Internal\VM\Instructions\Op.cs" />
     <Compile Include="Vocabulary\Carrier.cs" />
     <Compile Include="Internal\Engine\Constructs\Comparison.cs" />
     <Compile Include="Internal\Engine\Compiler\RantLexer.cs" />
@@ -414,9 +421,7 @@
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Internal\VM\Compiler\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>

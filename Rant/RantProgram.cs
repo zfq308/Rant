@@ -1,7 +1,5 @@
 ﻿using System;
 
-using Rant.Internal.VM.Instructions;
-
 namespace Rant
 {
 	/// <summary>
@@ -9,14 +7,14 @@ namespace Rant
 	/// </summary>
 	public sealed class RantProgram
 	{
-		private readonly Op[] _bytecode;
+		private readonly byte[] _bytecode;
 
-		internal RantProgram(Op[] bytecode)
+		internal RantProgram(byte[] bytecode)
 		{
 			_bytecode = bytecode;
 		}
 
-		internal Op[] Bytecode => _bytecode;
+		internal byte[] Bytecode => _bytecode;
 
 		public static RantProgram LoadProgramFromFile(string path)
 		{
