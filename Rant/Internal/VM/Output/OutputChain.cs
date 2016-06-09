@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Rant.Internal.Engine.Output
+using Rant.Internal.Engine;
+
+namespace Rant.Internal.VM.Output
 {
 	/// <summary>
 	/// Specially designed linked list for storing targets and output buffers, with support for change events for auto-formatting functionality.
@@ -10,7 +12,7 @@ namespace Rant.Internal.Engine.Output
 	internal class OutputChain
 	{
 		// Engine
-		private readonly Sandbox sandbox;
+		private readonly RVM _vm;
 
 		// Targets
 		private readonly Dictionary<string, OutputChainBuffer> targets = new Dictionary<string, OutputChainBuffer>();
@@ -25,17 +27,17 @@ namespace Rant.Internal.Engine.Output
 		public ChannelVisibility Visibility { get; set; } = ChannelVisibility.Public;
 		public string Name { get; }
 
-		public OutputChain(Sandbox sb, string name)
+		public OutputChain(RVM vm, string name)
 		{
-			sandbox = sb;
-			_first = new OutputChainBuffer(sb, null);
+			_vm = vm;
+			_first = new OutputChainBuffer(vm, null);
 			_last = _first;
 			Name = name;
 		}
 
 		public OutputChainBuffer AddBuffer()
 		{
-			return _last = new OutputChainBuffer(sandbox, _last);
+			return _last = new OutputChainBuffer(_vm, _last);
 		}
 
 		public void InsertTarget(string targetName)
@@ -50,7 +52,7 @@ namespace Rant.Internal.Engine.Output
 			else
 			{
 				// If it does exist, just create a new instance of it with the same buffer and add it in.
-				_last = new OutputChainBuffer(sandbox, _last, buffer);
+				_last = new OutputChainBuffer(_vm, _last, buffer);
 			}
 
 			// Then add an empty buffer after it so we don't start printing onto the target.
@@ -62,7 +64,7 @@ namespace Rant.Internal.Engine.Output
 			OutputChainBuffer buffer;
 			if (!targets.TryGetValue(targetName, out buffer))
 			{
-				buffer = targets[targetName] = new OutputChainBuffer(sandbox, null);
+				buffer = targets[targetName] = new OutputChainBuffer(_vm, null);
 			}
 
 			buffer.Print(value);
@@ -102,7 +104,7 @@ namespace Rant.Internal.Engine.Output
 		public OutputChainBuffer AddArticleBuffer()
 		{
 			// If the last buffer is empty, just replace it.
-			var b = _last = new OutputChainArticleBuffer(sandbox, _last);
+			var b = _last = new OutputChainArticleBuffer(_vm, _last);
 			return b;
 		}
 

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Rant.Internal.Engine.Output
+namespace Rant.Internal.VM.Output
 {
 	internal class OutputChainArticleBuffer : OutputChainBuffer
 	{
@@ -17,12 +17,12 @@ namespace Rant.Internal.Engine.Output
 		private static readonly string[] allowWords =
 			{ "f", "fbi", "fcc", "fda", "x", "l", "m", "n", "s", "h" };
 
-		public OutputChainArticleBuffer(Sandbox sb, OutputChainBuffer prev) : base(sb, prev)
+		public OutputChainArticleBuffer(RVM vm, OutputChainBuffer prev) : base(vm, prev)
 		{
 			Initialize();
 		}
 
-		public OutputChainArticleBuffer(Sandbox sb, OutputChainBuffer prev, OutputChainBuffer targetOrigin) : base(sb, prev, targetOrigin)
+		public OutputChainArticleBuffer(RVM vm, OutputChainBuffer prev, OutputChainBuffer targetOrigin) : base(vm, prev, targetOrigin)
 		{
 			Initialize();
 		}

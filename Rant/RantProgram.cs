@@ -11,9 +11,13 @@ namespace Rant
 	{
 		private readonly byte[] _bytecode;
 		private readonly RantProgramData _data;
+		private readonly string _name;
 
-		internal RantProgram(byte[] bytecode, RantProgramData data)
+		public string Name => _name;
+
+		internal RantProgram(string name, byte[] bytecode, RantProgramData data)
 		{
+			_name = name;
 			_bytecode = bytecode;
 			_data = data;
 		}

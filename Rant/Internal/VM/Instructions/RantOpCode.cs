@@ -1,6 +1,6 @@
 ﻿namespace Rant.Internal.VM.Instructions
 {
-	internal enum OpCodes : byte
+	internal enum RantOpCode : byte
 	{
 		/// <summary>
 		/// Debug-mode data provider. Sets the current position within the source code at which the next instruction takes place.
@@ -25,7 +25,7 @@
 		OpenChannelConstant = 0x03,
 		/// <summary>
 		/// Closes a channel with a name equal to the string at the specified string table index.
-		/// <para>close [int table_index]</para>
+		/// <para>close</para>
 		/// </summary>
 		CloseChannelConstant = 0x04,
 		/// <summary>

@@ -3,11 +3,11 @@ using System.Collections.Generic;
 
 using Rant.Internal.Engine.Formatters;
 
-namespace Rant.Internal.Engine.Output
+namespace Rant.Internal.VM.Output
 {
 	internal class OutputWriter
 	{
-		private readonly Sandbox sandbox;
+		private readonly RVM _vm;
 		private readonly OutputChain mainChain;
 		private readonly Dictionary<string, OutputChain> chains = new Dictionary<string, OutputChain>(); 
 		private readonly Stack<OutputChain> chainStack = new Stack<OutputChain>();
@@ -15,10 +15,10 @@ namespace Rant.Internal.Engine.Output
 
 		private const string MainChannelName = "main";
 
-		public OutputWriter(Sandbox sb)
+		public OutputWriter(RVM vm)
 		{
-			sandbox = sb;
-			mainChain = chains[MainChannelName] = new OutputChain(sb, MainChannelName);
+			_vm = vm;
+			mainChain = chains[MainChannelName] = new OutputChain(_vm, MainChannelName);
 			chainStack.Push(mainChain);
 			activeChains.Add(mainChain);
 		}
@@ -35,7 +35,7 @@ namespace Rant.Internal.Engine.Output
 			OutputChain chain;
 			if (!chains.TryGetValue(name, out chain))
 			{
-				chain = chains[name] = new OutputChain(sandbox, name);
+				chain = chains[name] = new OutputChain(_vm, name);
 			}
 			else if (activeChains.Contains(chain))
 			{
@@ -81,6 +81,6 @@ namespace Rant.Internal.Engine.Output
 
 		public void PrintToTarget(string targetName, string value) => Do(chain => chain.PrintToTarget(targetName, value));
 
-		public RantOutput ToRantOutput() => new RantOutput(sandbox.RNG.Seed, sandbox.StartingGen, chains.Values);
+		public RantOutput ToRantOutput() => new RantOutput(_vm.RNG.Seed, _vm.StartingGen, chains.Values);
 	}
 }

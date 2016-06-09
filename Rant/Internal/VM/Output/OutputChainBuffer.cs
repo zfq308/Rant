@@ -2,10 +2,11 @@
 using System.Collections.Generic;
 using System.Text;
 
+using Rant.Internal.Engine;
 using Rant.Internal.Engine.Formatters;
 using Rant.Internal.IO;
 
-namespace Rant.Internal.Engine.Output
+namespace Rant.Internal.VM.Output
 {
 	internal class OutputChainBuffer
 	{
@@ -15,7 +16,7 @@ namespace Rant.Internal.Engine.Output
 		private static readonly HashSet<char> sentenceTerminators
 			= new HashSet<char>(new[] { '.', '?', '!' });
 
-		private readonly Sandbox sandbox;
+		private readonly RVM _vm;
 		protected readonly StringBuilder _buffer;
 		private readonly OutputChainBuffer _prevItem;
 		private OutputChainBuffer _nextItem;
@@ -44,7 +45,7 @@ namespace Rant.Internal.Engine.Output
 
 		protected bool PrintedSinceCapsChange => _printedSinceCapsChange;
 
-		public OutputChainBuffer(Sandbox sb, OutputChainBuffer prev)
+		public OutputChainBuffer(RVM vm, OutputChainBuffer prev)
 		{
 			_prevItem = prev;
 
@@ -60,10 +61,10 @@ namespace Rant.Internal.Engine.Output
 
 			_isTarget = true;
 			_buffer = new StringBuilder(InitialCapacity);
-			sandbox = sb;
+			_vm = vm;
 		}
 
-		public OutputChainBuffer(Sandbox sb, OutputChainBuffer prev, OutputChainBuffer targetOrigin)
+		public OutputChainBuffer(RVM vm, OutputChainBuffer prev, OutputChainBuffer targetOrigin)
 		{
 			_prevItem = prev;
 
@@ -74,7 +75,7 @@ namespace Rant.Internal.Engine.Output
 			}
 
 			_buffer = targetOrigin._buffer;
-			sandbox = sb;
+			_vm = vm;
 		}
 
 		public NumberFormatter NumberFormatter => _numberFormatter;
@@ -126,8 +127,8 @@ namespace Rant.Internal.Engine.Output
 
 		private void UpdateSize()
 		{
-			if (sandbox.SizeLimit.Accumulate(_buffer.Length - oldSize))
-				throw new InvalidOperationException($"Exceeded character limit ({sandbox.SizeLimit.Maximum})");
+			if (_vm.SizeLimit.Accumulate(_buffer.Length - oldSize))
+				throw new InvalidOperationException($"Exceeded character limit ({_vm.SizeLimit.Maximum})");
 			oldSize = _buffer.Length;
 		}
 
@@ -138,7 +139,7 @@ namespace Rant.Internal.Engine.Output
 #else
 			_buffer.Clear();
 #endif
-			sandbox.SizeLimit.Accumulate(-oldSize);
+			_vm.SizeLimit.Accumulate(-oldSize);
 			oldSize = 0;
 		}
 
@@ -214,7 +215,7 @@ namespace Rant.Internal.Engine.Output
 							return;
 						}
 						// If it's not capitalizable in a title, skip it.
-						if (sandbox.Format.Excludes(value) && boundary) return;
+						if (_vm.Format.Excludes(value) && boundary) return;
 
 						CapitalizeFirstLetter(ref value);
 					}

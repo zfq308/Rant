@@ -29,6 +29,7 @@
     <Prefer32Bit>false</Prefer32Bit>
     <DocumentationFile>
     </DocumentationFile>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>none</DebugType>
@@ -39,6 +40,7 @@
     <WarningLevel>4</WarningLevel>
     <DocumentationFile>..\bin\MainBuild\Rant.xml</DocumentationFile>
     <Prefer32Bit>false</Prefer32Bit>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Berkin-Release|AnyCPU'">
     <OutputPath>C:\rant\</OutputPath>
@@ -50,6 +52,7 @@
     <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
     <Prefer32Bit>false</Prefer32Bit>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <PropertyGroup>
     <SignAssembly>false</SignAssembly>
@@ -71,6 +74,7 @@
     <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
     <Prefer32Bit>false</Prefer32Bit>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
     <DebugSymbols>true</DebugSymbols>
@@ -165,6 +169,7 @@
     <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
     <Prefer32Bit>false</Prefer32Bit>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Unity|x86'">
     <OutputPath>bin\x86\Unity\</OutputPath>
@@ -226,10 +231,10 @@
     <Compile Include="Internal\Engine\Metadata\RantDescriptionAttribute.cs" />
     <Compile Include="Internal\Engine\Constructs\BlockState.cs" />
     <Compile Include="Internal\Engine\Metadata\RantModeValue.cs" />
-    <Compile Include="Internal\Engine\Output\OutputChain.cs" />
-    <Compile Include="Internal\Engine\Output\OutputChainArticleBuffer.cs" />
-    <Compile Include="Internal\Engine\Output\OutputChainBuffer.cs" />
-    <Compile Include="Internal\Engine\Output\OutputWriter.cs" />
+    <Compile Include="Internal\VM\Output\OutputChain.cs" />
+    <Compile Include="Internal\VM\Output\OutputChainArticleBuffer.cs" />
+    <Compile Include="Internal\VM\Output\OutputChainBuffer.cs" />
+    <Compile Include="Internal\VM\Output\OutputWriter.cs" />
     <Compile Include="Internal\Engine\RantFunctionGroup.cs" />
     <Compile Include="Internal\Engine\RichardFunctions.cs" />
     <Compile Include="Internal\Engine\Syntax\Richard\Operators\RichAdditionOperator.cs" />
@@ -320,13 +325,16 @@
     <Compile Include="Internal\IO\Compression\RangeCoder\RangeCoderBit.cs" />
     <Compile Include="Internal\IO\Compression\RangeCoder\RangeCoderBitTree.cs" />
     <Compile Include="Internal\VM\BlockData.cs" />
+    <Compile Include="Internal\VM\StackFrame.cs" />
     <Compile Include="Internal\VM\Compiler\R.cs" />
     <Compile Include="Internal\VM\Compiler\RantCompiler.cs" />
     <Compile Include="Internal\VM\Compiler\RantLexer.cs" />
     <Compile Include="Internal\VM\Compiler\TokenReader.cs" />
-    <Compile Include="Internal\VM\Instructions\OpCodes.cs" />
+    <Compile Include="Internal\VM\Instructions\RantOpCode.cs" />
+    <Compile Include="Internal\VM\RantObject.cs" />
+    <Compile Include="Internal\VM\RantObjectType.cs" />
     <Compile Include="Internal\VM\RantProgramData.cs" />
-    <Compile Include="Internal\VM\VM.cs" />
+    <Compile Include="Internal\VM\RVM.cs" />
     <Compile Include="RantArgAttribute.cs" />
     <Compile Include="RantCompilerException.cs" />
     <Compile Include="RantInternalException.cs" />
@@ -384,7 +392,7 @@
     <Compile Include="Internal\Engine\Limit.cs" />
     <Compile Include="RantRuntimeException.cs" />
     <Compile Include="Internal\Engine\Formatters\Capitalization.cs" />
-    <Compile Include="Internal\Engine\Output\ChannelVisibility.cs" />
+    <Compile Include="Internal\VM\Output\ChannelVisibility.cs" />
     <Compile Include="Internal\Engine\Extensions.cs" />
     <Compile Include="Internal\Engine\Formatters\NumberFormat.cs" />
     <Compile Include="Internal\Engine\Formatters\Numerals.cs" />

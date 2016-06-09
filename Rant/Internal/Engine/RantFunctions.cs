@@ -7,8 +7,8 @@ using System.Reflection;
 using Rant.Internal.Engine.Constructs;
 using Rant.Internal.Engine.Formatters;
 using Rant.Internal.Engine.Metadata;
-using Rant.Internal.Engine.Output;
 using Rant.Internal.Engine.Syntax;
+using Rant.Internal.VM.Output;
 using Rant.Vocabulary;
 
 using exec = System.Collections.Generic.IEnumerator<Rant.Internal.Engine.Syntax.RantAction>;
