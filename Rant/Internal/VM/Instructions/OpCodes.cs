@@ -164,5 +164,69 @@
 		/// <para>stloc [int index]</para>
 		/// </summary>
 		SetLocal = 0x1f,
+		/// <summary>
+		/// Pops a channel stack output off the stack and runs a replacement operation on it using the provided regex,
+		/// replacing all matches with the output from the code at the pointer specified on the next item on the stack.
+		/// The results are printed to the corresponding channels in the current output.
+		/// <para>replace [int regex_index]</para>
+		/// </summary>
+		Replace = 0x20,
+		/// <summary>
+		/// Compares the last two items on the stack, bottom item first.
+		/// <para>cmp</para>
+		/// </summary>
+		Compare = 0x21,
+		/// <summary>
+		/// Jumps to the specified address if A is equal to B.
+		/// <para>jeq [int address]</para>
+		/// </summary>
+		JumpEqual = 0x22,
+		/// <summary>
+		/// Jumps to the specified address if A is not equal to B.
+		/// <para>jne [int address]</para>
+		/// </summary>
+		JumpnotEqual = 0x23,
+		/// <summary>
+		/// Jumps to the specified address if A is greater than B.
+		/// <para>jgt [int address]</para>
+		/// </summary>
+		JumpGreaterThan = 0x24,
+		/// <summary>
+		/// Jumps to the specified address if A is greater than or equal to B.
+		/// <para>jge [int address]</para>
+		/// </summary>
+		JumpGreaterEqual = 0x25,
+		/// <summary>
+		/// Jumps to the specified address if A is less than B.
+		/// <para>jlt [int address]</para>
+		/// </summary>
+		JumpLessThan = 0x26,
+		/// <summary>
+		/// Jumps to the specified address if A is less than or equal to B.
+		/// <para>jle [int address]</para>
+		/// </summary>
+		JumpLessEqual = 0x27,
+		/// <summary>
+		/// Jumps to the specified address if A is equal to zero/false.
+		/// <para>jz [int address]</para>
+		/// </summary>
+		JumpZero = 0x28,
+		/// <summary>
+		/// Jumps to the specified address if A is nonzero/true.
+		/// <para>jnz [int address]</para>
+		/// </summary>
+		JumpNotZero = 0x29,
+		/// <summary>
+		/// Performs a modulo operation on the last two stack items and pushes the result.
+		/// </summary>
+		Modulo = 0x2a,
+		/// <summary>
+		/// Pushes zero to the stack.
+		/// </summary>
+		Zero = 0x2b,
+		/// <summary>
+		/// Pushes one to the stack.
+		/// </summary>
+		One = 0x2c,
 	}
 }

@@ -319,6 +319,7 @@
     <Compile Include="Internal\IO\Compression\RangeCoder\RangeCoder.cs" />
     <Compile Include="Internal\IO\Compression\RangeCoder\RangeCoderBit.cs" />
     <Compile Include="Internal\IO\Compression\RangeCoder\RangeCoderBitTree.cs" />
+    <Compile Include="Internal\VM\BlockData.cs" />
     <Compile Include="Internal\VM\Compiler\R.cs" />
     <Compile Include="Internal\VM\Compiler\RantCompiler.cs" />
     <Compile Include="Internal\VM\Compiler\RantLexer.cs" />
