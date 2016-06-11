@@ -17,6 +17,7 @@ namespace Rant
 		private readonly byte[] _bytecode;
 		private readonly RantProgramData _data;
 		private readonly string _name;
+        private readonly byte[] _compiledProgram;
 
 		public string Name => _name;
 
@@ -24,12 +25,26 @@ namespace Rant
 
         public RantProgramData Data => _data;
 
-        internal RantProgram(string name, byte[] bytecode, RantProgramData data)
+        internal RantProgram(string name, byte[] bytecode, RantProgramData data, byte[] compiledProgram)
 		{
 			_name = name;
 			_bytecode = bytecode;
 			_data = data;
-		}
+            _compiledProgram = compiledProgram;
+        }
+
+        public void Save(string outputFile)
+        {
+            using(var file = File.Open(outputFile, FileMode.Create))
+            {
+                Save(file);
+            }
+        }
+
+        public void Save(Stream output)
+        {
+            output.Write(_compiledProgram, 0, _compiledProgram.Length);
+        }
 
 		public static RantProgram LoadProgramFile(string path)
 		{
@@ -74,17 +89,22 @@ namespace Rant
                 table[i] = str;
             }
             var programData = new RantProgramData(table, new Regex[0], new BlockData[0]);
-            return new RantProgram(name, bytecode, programData);
+            return new RantProgram(name, bytecode, programData, data);
         }
 
-		public static RantProgram CompileString(string source)
-		{
-			throw new NotImplementedException();
-		}
+		public static RantProgram CompileString(RantEngine engine, string source, bool debug = true)
+        {
+            var compiler = new Rant.Internal.VM.Compiler.RantCompiler("Pattern", source);
+            byte[] bytecode;
+            List<string> stringTable;
+            var compiledProgram = compiler.Compile(debug, out bytecode, out stringTable);
+            var data = new RantProgramData(stringTable.ToArray(), new Regex[0], new BlockData[0]);
+            return new RantProgram("Pattern", bytecode, data, compiledProgram);
+        }
 
-		public static RantProgram CompileFile(string path)
+		public static RantProgram CompileFile(RantEngine engine, string path, bool debug = true)
 		{
-			throw new NotImplementedException();
+            return CompileString(engine, File.ReadAllText(path), debug);
 		}
 	}
 }

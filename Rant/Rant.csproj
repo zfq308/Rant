@@ -235,6 +235,9 @@
     <Compile Include="Internal\Engine\Output\OutputChainArticleBuffer.cs" />
     <Compile Include="Internal\Engine\Output\OutputChainBuffer.cs" />
     <Compile Include="Internal\Engine\Output\OutputWriter.cs" />
+    <Compile Include="Internal\VM\Compiler\Parselets\ArgumentableParselet.cs" />
+    <Compile Include="Internal\VM\Compiler\Parselets\FunctionParselet.cs" />
+    <Compile Include="Internal\VM\Compiler\Parselets\TagParselet.cs" />
     <Compile Include="Internal\VM\Output\OutputChain.cs" />
     <Compile Include="Internal\VM\Output\OutputChainArticleBuffer.cs" />
     <Compile Include="Internal\VM\Output\OutputChainBuffer.cs" />

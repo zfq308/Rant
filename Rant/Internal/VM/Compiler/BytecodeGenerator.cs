@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 using Rant.Internal.VM.Instructions;
+using Rant.Internal.Stringes;
 
 namespace Rant.Internal.VM.Compiler
 {
@@ -26,14 +27,29 @@ namespace Rant.Internal.VM.Compiler
         private Dictionary<int, int> _stringTableCounts;
 
         private List<BytecodeSegment> _program;
+        private bool _debug;
 
+        /// <summary>
+        /// The latest BytecodeSegment to be added.
+        /// </summary>
         public BytecodeSegment LatestSegment
         {
             get { return _program.Last(); }
         }
 
-        public BytecodeGenerator()
+        /// <summary>
+        /// Whether or not this will generate a debug build.
+        /// </summary>
+        public bool Debug => _debug;
+
+        /// <summary>
+        /// The string table.
+        /// </summary>
+        public List<string> StringTable => _stringTable;
+
+        public BytecodeGenerator(bool debug)
         {
+            _debug = debug;
             _stringTable = new List<string>();
             _stringTableSet = new HashSet<string>();
             _stringTableCounts = new Dictionary<int, int>();
@@ -171,6 +187,30 @@ namespace Rant.Internal.VM.Compiler
             _stringReferences[_bytecode.Count - 1] = reference;
             _bytecode.AddRange(BitConverter.GetBytes(reference));
             _lastWasString = true;
+        }
+
+        /// <summary>
+        /// Mark the current position in the bytecode, if this is a debug build.
+        /// </summary>
+        /// <param name="stringe">The current stringe.</param>
+        public void MarkPosition(Stringe stringe)
+        {
+            MarkPosition(stringe.Line, stringe.Column, stringe.Offset);
+        }
+
+        /// <summary>
+        /// Mark the current position in the bytecode, if this is a debug build.
+        /// </summary>
+        /// <param name="line">The current line.</param>
+        /// <param name="column">The current column.</param>
+        /// <param name="index">The current index.</param>
+        public void MarkPosition(int line, int column, int index)
+        {
+            if(!_generator.Debug) return;
+            _bytecode.Add((byte)RantOpCode.Debug);
+            _bytecode.AddRange(BitConverter.GetBytes(line));
+            _bytecode.AddRange(BitConverter.GetBytes(column));
+            _bytecode.AddRange(BitConverter.GetBytes(index));
         }
     }
 }

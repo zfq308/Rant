@@ -257,9 +257,9 @@ namespace Rant
 			vm.UserModules = _userModules;
             return vm.Run(timeout);
         }
-        public byte[] CompilePattern(string pattern)
+        public RantProgram CompilePattern(string pattern, bool debug = true)
         {
-            return Rant.Internal.VM.Compiler.RantCompiler.Compile("unknown", pattern);
+            return RantProgram.CompileString(this, pattern, debug);
         }
 
         #region Do, DoFile
