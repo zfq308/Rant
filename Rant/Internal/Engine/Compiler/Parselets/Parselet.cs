@@ -51,7 +51,7 @@ namespace Rant.Internal.Engine.Compiler.Parselets
                 t.IsClass &&
                 !t.IsNested && // for some reason makes sure the internal enumerable type isn't included
                 !t.IsAbstract && // makes sure we don't load this base class
-                t.Namespace == "Rant.Engine.Compiler.Parselets");
+                t.Namespace == "Rant.Internal.Engine.Compiler.Parselets");
 
             foreach (var type in types)
             {

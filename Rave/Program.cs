@@ -1,6 +1,7 @@
 ﻿using System;
 using static System.Console;
 using static Rave.CmdLine;
+using Rave.Build;
 using Rave.DicSort;
 using Rave.Packer;
 using Rave.DicDoc;
@@ -39,8 +40,7 @@ namespace Rave
 						}
 					case "build":
 						{
-							// TODO: compiler command
-							WriteLine("Sorry, this command isn't implemented yet :(");
+                            PatternBuilder.Run();
 							break;
 						}
 					case "help":
@@ -60,6 +60,9 @@ namespace Rave
 									case "pack":
 										PackGenerator.GetHelp();
 										break;
+                                    case "build":
+                                        PatternBuilder.GetHelp();
+                                        break;
 									case "help":
 										WriteLine("Are you serious?");
 										break;

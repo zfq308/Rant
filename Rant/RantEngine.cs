@@ -257,18 +257,22 @@ namespace Rant
 			vm.UserModules = _userModules;
             return vm.Run(timeout);
         }
+        public byte[] CompilePattern(string pattern)
+        {
+            return Rant.Internal.VM.Compiler.RantCompiler.Compile("unknown", pattern);
+        }
 
         #region Do, DoFile
 
-	    /// <summary>
-	    /// Compiles the specified string into a pattern, executes it, and returns the resulting output.
-	    /// </summary>
-	    /// <param name="input">The input string to execute.</param>
-	    /// <param name="charLimit">The maximum number of characters that can be printed. An exception will be thrown if the limit is exceeded. Set to zero or below for unlimited characters.</param>
-	    /// <param name="timeout">The maximum number of seconds that the pattern will execute for.</param>
-	    /// <param name="args">The arguments to pass to the pattern.</param>
-	    /// <returns></returns>
-	    public RantOutput Do(string input, int charLimit = 0, double timeout = -1, RantPatternArgs args = null) => 
+        /// <summary>
+        /// Compiles the specified string into a pattern, executes it, and returns the resulting output.
+        /// </summary>
+        /// <param name="input">The input string to execute.</param>
+        /// <param name="charLimit">The maximum number of characters that can be printed. An exception will be thrown if the limit is exceeded. Set to zero or below for unlimited characters.</param>
+        /// <param name="timeout">The maximum number of seconds that the pattern will execute for.</param>
+        /// <param name="args">The arguments to pass to the pattern.</param>
+        /// <returns></returns>
+        public RantOutput Do(string input, int charLimit = 0, double timeout = -1, RantPatternArgs args = null) => 
             RunVM(new Sandbox(this, RantPattern.FromString(input), new RNG(Seeds.NextRaw()), charLimit, args), timeout);
 
 		/// <summary>

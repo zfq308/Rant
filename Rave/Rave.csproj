@@ -59,6 +59,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Build\PatternBuilder.cs" />
     <Compile Include="CmdLine.cs" />
     <Compile Include="DicDoc\DocGenerator.cs" />
     <Compile Include="DicDoc\TablePageGenerator.cs" />
