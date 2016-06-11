@@ -24,7 +24,6 @@ namespace Rant.Internal.VM.Compiler.Parselets
 
                 if(_isFunctionArgument && (token.ID == R.Semicolon || token.ID == R.RightSquare))
                 {
-                    reader.ReadToken();
                     yield break;
                 }
 

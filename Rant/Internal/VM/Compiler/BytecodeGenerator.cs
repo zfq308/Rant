@@ -166,6 +166,16 @@ namespace Rant.Internal.VM.Compiler
         }
 
         /// <summary>
+        /// Add an opcode without any special treatment.
+        /// </summary>
+        /// <param name="opcode">The opcode to add.</param>
+        public void AddGeneric(RantOpCode opcode)
+        {
+            _bytecode.Add((byte)opcode);
+            _lastWasString = false;
+        }
+
+        /// <summary>
         /// Add an opcode that references a string in the string table.
         /// </summary>
         /// <param name="opcode">The opcode to add.</param>

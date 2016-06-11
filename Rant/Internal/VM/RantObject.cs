@@ -467,7 +467,8 @@ namespace Rant.Internal.VM
 			const int greater = 1;
 			const int less = -1;
 			const int mismatch = 2;
-			comparable = true;
+            result = mismatch;
+            comparable = true;
 			switch (Type)
 			{
 				case RantObjectType.Number:
