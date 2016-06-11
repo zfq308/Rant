@@ -49,10 +49,10 @@
 		/// </summary>
 		PrintChars = 0x08,
 		/// <summary>
-		/// Calls the specified function. Arguments should be pushed to the stack.
-		/// <para>call [short func_code]</para>
+		/// Calls the specified native function. Arguments should be pushed to the stack.
+		/// <para>ncall [short func_code]</para>
 		/// </summary>
-		Call = 0x09,
+		NativeCall = 0x09,
 		/// <summary>
 		/// Returns to caller.
 		/// <para>ret</para>
@@ -91,7 +91,7 @@
 		PopSubs = 0x10,
 		/// <summary>
 		/// Calls the specified subroutine.
-		/// <para>callsub [int sub_id]</para>
+		/// <para>callsub [int sub_id] [int max_locals]</para>
 		/// </summary>
 		CallSub = 0x11,
 		/// <summary>
@@ -228,5 +228,15 @@
 		/// Pushes one to the stack.
 		/// </summary>
 		One = 0x2c,
+		/// <summary>
+		/// Pushes an address to the stack.
+		/// <para>pushaddr [int address]</para>
+		/// </summary>
+		PushAddress = 0x2d,
+		/// <summary>
+		/// Calls a Richard function.
+		/// <para>call [int func_location]</para>
+		/// </summary>
+		Call,
 	}
 }

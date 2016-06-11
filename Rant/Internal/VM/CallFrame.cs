@@ -8,6 +8,10 @@ namespace Rant.Internal.VM
 		// TODO: Query args
 		public string QueryTableName = String.Empty;
 		public int Position = 0;
-		
+
+		public CallFrame(int position)
+		{
+			Position = position;
+		}
 	}
 }
