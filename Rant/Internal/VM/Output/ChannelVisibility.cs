@@ -1,11 +1,11 @@
 ﻿using Rant.Internal.Engine.Metadata;
 
-namespace Rant.Internal.Engine.Output
+namespace Rant.Internal.VM.Output
 {
     /// <summary>
     /// Provides visibility settings for output channels.
     /// </summary>
-    public enum ChannelVisibility
+    public enum ChannelVisibility : byte
     {
         /// <summary>
         /// Channel outputs to itself and 'main'.

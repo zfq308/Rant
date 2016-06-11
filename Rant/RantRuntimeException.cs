@@ -12,11 +12,10 @@ namespace Rant
     /// </summary>
     public sealed class RantRuntimeException : Exception
     {
-        private int _line;
-        private int _col;
-        private int _index;
-        private string _source;
-        private int _length;
+        private readonly int _line;
+        private readonly int _col;
+        private readonly int _index;
+        private readonly RantProgram _source;
 
         /// <summary>
         /// The line on which the error occurred.
@@ -34,82 +33,17 @@ namespace Rant
         public int Index => _index;
 
         /// <summary>
-        /// The length of the substring in which the error occurred.
-        /// </summary>
-        public int Length => _length;
-
-        /// <summary>
         /// The source of the error.
         /// </summary>
-        public string Code => _source;
+        public RantProgram Source => _source;
 
-        internal void SetToken(Stringe token)
-        {
-            _line = token.Line;
-            _col = token.Column;
-            _index = token.Offset;
-            _length = token.Length;
-        }
-
-        internal RantRuntimeException(RantPattern source, Stringe token, string message = "A generic syntax error was encountered.") 
-            : base((token != null ? ($"({source.Name} @ Ln {token.Line}, Col {token.Column}): ") : "") + message)
-        {
-            _source = source.Code;
-            if (token != null)
-            {
-                _line = token.Line;
-                _col = token.Column;
-                _index = token.Offset;
-                _length = token.Length;
-            }
-            else
-            {
-                _line = _col = 1;
-                _index = 0;
-                _length = 0;
-            }
-        }
-
-        internal RantRuntimeException(IEnumerable<Token<R>> tokens, RantPattern source, string message = "A generic syntax error was encountered.")
-            : base((tokens != null ? ($"({source.Name} @ Ln {tokens.First().Line}, Col {tokens.First().Column}): ") : "") + message)
-        {
-            _source = source.Code;
-            
-            if (tokens != null)
-            {
-                var first = tokens.First();
-                var last = tokens.Last();
-                _line = first.Line;
-                _col = first.Column;
-                _index = first.Offset;
-                _length = (last.Offset + last.Length) - first.Offset;
-            }
-            else
-            {
-
-                _line = _col = 1;
-                _index = 0;
-                _length = 0;
-            }
-        }
-
-        internal RantRuntimeException(string source, Stringe token, string message = "A generic syntax error was encountered.")
-            : base((token != null ? ($"(Ln {token.Line}, Col {token.Column}) - ") : "") + message)
+        internal RantRuntimeException(RantProgram source, int line, int col, int index, string message = "A generic runtime error was encountered.") 
+            : base(line > 0 ? (($"({source.Name} @ Ln {line}, Col {col}): ") + message) : message)
         {
             _source = source;
-            if (token != null)
-            {
-                _line = token.Line;
-                _col = token.Column;
-                _index = token.Offset;
-                _length = token.Length;
-            }
-            else
-            {
-                _line = _col = 1;
-                _index = 0;
-                _length = 0;
-            }
+	        _line = line;
+	        _col = col;
+	        _index = index;
         }
     }
 }

@@ -8,9 +8,9 @@ using System.Text.RegularExpressions;
 using Rant.Formats;
 using Rant.Internal.Engine.Constructs;
 using Rant.Internal.Engine.ObjectModel;
-using Rant.Internal.Engine.Output;
 using Rant.Internal.Engine.Syntax;
 using Rant.Internal.Engine.Syntax.Richard;
+using Rant.Internal.VM.Output;
 using Rant.Vocabulary;
 
 namespace Rant.Internal.Engine
