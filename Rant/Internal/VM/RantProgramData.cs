@@ -3,11 +3,16 @@ using System.Text.RegularExpressions;
 
 namespace Rant.Internal.VM
 {
-	internal class RantProgramData
+	public sealed class RantProgramData
 	{
 		private readonly string[] _stringTable;
 		private readonly Regex[] _regexTable;
 		private readonly BlockData[] _blockDataTable;
+
+        /// <summary>
+        /// The string table.
+        /// </summary>
+        public string[] StringTable => _stringTable;
 
 		public RantProgramData(string[] stringTable, Regex[] regexTable, BlockData[] blockDataTable)
 		{

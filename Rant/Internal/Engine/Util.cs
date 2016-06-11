@@ -297,11 +297,6 @@ namespace Rant.Internal.Engine
 			return new RantRuntimeException(source, token, message);
 		}
 
-		internal static RantRuntimeException Error(IEnumerable<Token<R>> tokens, RantPattern source, string message = "A generic syntax error was encountered.")
-		{
-			return new RantRuntimeException(tokens, source, message);
-		}
-
 		internal static RantRuntimeException Error(string source, Stringe token, string message = "A generic syntax error was encountered.")
 		{
 			return new RantRuntimeException(source, token, message);

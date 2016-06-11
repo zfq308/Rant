@@ -21,6 +21,13 @@ namespace Rant
             BaseGeneration = startingGen;
         }
 
+        internal RantOutput(long seed, long startingGen, IEnumerable<Rant.Internal.Engine.Output.OutputChain> chains)
+        {
+            _outputs = chains.ToDictionary(chain => chain.Name, chain => new RantOutputEntry(chain.Name, chain.ToString(), chain.Visibility));
+            Seed = seed;
+            BaseGeneration = startingGen;
+        }
+
         /// <summary>
         /// Gets the output of the channel with the specified name.
         /// </summary>

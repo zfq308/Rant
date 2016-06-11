@@ -42,7 +42,7 @@ namespace Rant.Internal.VM.Compiler.Parselets
                         var bytes = new List<byte>();
                         bytes.Add((byte)startChar);
                         bytes.AddRange(BitConverter.GetBytes(amount));
-                        generator.LatestSegment.AddGeneric(OpCodes.PrintChars, bytes);
+                        generator.LatestSegment.AddGeneric(RantOpCode.PrintChars, bytes);
                     }
                     break;
                 // It's a static escape sequence.
@@ -78,8 +78,7 @@ namespace Rant.Internal.VM.Compiler.Parselets
 
         private void PrintChar(BytecodeGenerator generator, string c)
         {
-            var stringIndex = generator.AddString(c);
-            generator.LatestSegment.AddGeneric(OpCodes.PrintStringConstant, BitConverter.GetBytes(stringIndex));
+            generator.LatestSegment.AddStringReference(RantOpCode.PrintStringConstant, c);
         }
     }
 }

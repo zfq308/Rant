@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Rant.Internal.VM.Instructions;
 
 namespace Rant.Internal.VM.Compiler.Parselets
 {
@@ -12,14 +13,18 @@ namespace Rant.Internal.VM.Compiler.Parselets
         {
             while(!reader.End)
             {
-                var token = reader.PeekLooseToken();
+                var token = reader.PeekToken();
                 switch(token.ID)
                 {
+                    // escape sequences
                     case R.EscapeSequence:
                         yield return new EscapeParselet();
                         break;
+                    // non-special text
                     default:
-                        throw new RantCompilerException(reader.SourceName, token, "Unexpected token: " + token.ID);
+                        reader.ReadToken();
+                        generator.LatestSegment.AddStringReference(RantOpCode.PrintStringConstant, token.Value);
+                        break;
                 }
             }
             yield break;

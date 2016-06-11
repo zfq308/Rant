@@ -132,7 +132,7 @@ namespace Rant.Internal.Engine
             [RantDescription("The pattern to run.")]
             RantAction rangeAction)
         {
-	        var oldFmtMap = new Dictionary<OutputChain, NumberFormat>();
+	        var oldFmtMap = new Dictionary<Output.OutputChain, NumberFormat>();
 
 			sb.Output.Do(chain =>
 			{

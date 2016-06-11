@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 
 using Rant.Internal.VM.Compiler.Parselets;
@@ -10,6 +11,12 @@ namespace Rant.Internal.VM.Compiler
 {
     internal class RantCompiler
     {
+        // Code, String Table
+        public static byte PATTERN_SECTION_COUNT = 2;
+        public static byte CODE_SECTION_ID = 0x01;
+        public static byte STRING_TABLE_SECTION_ID = 0x02;
+        public static string MAGIC_NUMBER = "RPTN";
+
         public static byte[] Compile(string sourceName, string source) => new RantCompiler(sourceName, source).Compile();
 
         private readonly string _source;
@@ -44,7 +51,39 @@ namespace Rant.Internal.VM.Compiler
                 parseletStack.Pop();
             }
 
-            return _generator.Compile();
+            // Assemble final pattern.
+            var bytecode = _generator.Compile();
+            var stream = new MemoryStream();
+            var writer = new BinaryWriter(stream);
+            writer.Write(MAGIC_NUMBER.ToCharArray());
+            // Section header
+            writer.Write(PATTERN_SECTION_COUNT);
+            // Write dummy address for sections, for now
+            writer.Write(CODE_SECTION_ID);
+            var codeAddrPosition = stream.Position;
+            writer.Write((int)0);
+            writer.Write(STRING_TABLE_SECTION_ID);
+            var stringTablePosition = stream.Position;
+            writer.Write((int)0);
+
+            // Write code address
+            var currentAddr = stream.Position;
+            writer.Seek((int)codeAddrPosition, SeekOrigin.Begin);
+            writer.Write((int)currentAddr);
+            writer.Seek((int)currentAddr, SeekOrigin.Begin);
+            // Write code
+            writer.Write(bytecode.Length);
+            writer.Write(bytecode);
+
+            // Write string table address
+            currentAddr = stream.Position;
+            writer.Seek((int)stringTablePosition, SeekOrigin.Begin);
+            writer.Write((int)currentAddr);
+            writer.Seek((int)currentAddr, SeekOrigin.Begin);
+            // Write string table
+            writer.Write(_generator.BuildStringTable());
+
+            return stream.ToArray();
         }
     }
 }

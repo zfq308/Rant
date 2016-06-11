@@ -46,7 +46,6 @@ namespace Rant.Internal.Engine.Syntax.Richard
                 // attach token to it and throw it up
                 catch (RantRuntimeException e)
                 {
-                    e.SetToken(Range);
                     throw e;
                 }
                 yield return iterator.Current as RichActionBase;

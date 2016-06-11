@@ -23,8 +23,8 @@ namespace Rant.Internal.Engine
 		private static readonly object fallbackArgsLockObj = new object();
 
         private readonly RantEngine _engine;
-        private readonly OutputWriter _baseOutput;
-        private readonly Stack<OutputWriter> _outputs;
+        private readonly Output.OutputWriter _baseOutput;
+        private readonly Stack<Engine.Output.OutputWriter> _outputs;
         private readonly RNG _rng;
 	    private readonly Stack<RNG> _spRNGStack; 
         private readonly long _startingGen;
@@ -54,12 +54,12 @@ namespace Rant.Internal.Engine
         /// <summary>
         /// Gets the main output channel stack.
         /// </summary>
-        public OutputWriter BaseOutput => _baseOutput;
+        public Output.OutputWriter BaseOutput => _baseOutput;
 
         /// <summary>
         /// Gets the current output channel stack.
         /// </summary>
-        public OutputWriter Output => _outputs.Peek();
+        public Output.OutputWriter Output => _outputs.Peek();
 
         /// <summary>
         /// Gets the random number generator in use by the interpreter.
@@ -154,8 +154,8 @@ namespace Rant.Internal.Engine
             _engine = engine;
             _format = engine.Format;
             _sizeLimit = new Limit(sizeLimit);
-            _baseOutput = new OutputWriter(this);
-            _outputs = new Stack<OutputWriter>();
+            _baseOutput = new Output.OutputWriter(this);
+            _outputs = new Stack<Output.OutputWriter>();
             _outputs.Push(_baseOutput);
             _rng = rng;
 			_spRNGStack = new Stack<RNG>();
@@ -203,7 +203,7 @@ namespace Rant.Internal.Engine
 			Output.Do(chain => chain.Print(buffer));
 		}
 
-        public void AddOutputWriter() => _outputs.Push(new OutputWriter(this));
+        public void AddOutputWriter() => _outputs.Push(new Output.OutputWriter(this));
 
 	    public RantOutput Return() => _outputs.Pop().ToRantOutput();
 
@@ -325,7 +325,7 @@ namespace Rant.Internal.Engine
 
         public RantOutput EvalPattern(double timeout, RantPattern pattern)
         {
-            _outputs.Push(new OutputWriter(this));
+            _outputs.Push(new Output.OutputWriter(this));
             return Run(timeout, pattern);
         }
 

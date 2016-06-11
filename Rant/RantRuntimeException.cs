@@ -37,6 +37,9 @@ namespace Rant
         /// </summary>
         public RantProgram Source => _source;
 
+        // for compatibility, until we finish v3.
+        private RantPattern _sourcePattern;
+
         internal RantRuntimeException(RantProgram source, int line, int col, int index, string message = "A generic runtime error was encountered.") 
             : base(line > 0 ? (($"({source.Name} @ Ln {line}, Col {col}): ") + message) : message)
         {
@@ -44,6 +47,34 @@ namespace Rant
 	        _line = line;
 	        _col = col;
 	        _index = index;
+        }
+
+        internal RantRuntimeException(RantPattern source, int line, int col, int index, string message = "A generic runtime error was encountered.")
+            : base(line > 0 ? (($"({source.Name} @ Ln {line}, Col {col}): ") + message) : message)
+        {
+            _source = null;
+            _sourcePattern = source;
+            _line = line;
+            _col = col;
+            _index = index;
+        }
+
+        internal RantRuntimeException(RantPattern source, Stringe stringe, string message = "A generic runtime error was encountered.")
+            : base(stringe.Line > 0 ? (($"({source.Name} @ Ln {stringe.Line}, Col {stringe.Column}): ") + message) : message)
+        {
+            _source = null;
+            _sourcePattern = source;
+            _line = stringe.Line;
+            _col = stringe.Column;
+            _index = 0;
+        }
+        internal RantRuntimeException(string source, Stringe stringe, string message = "A generic runtime error was encountered.")
+            : base(stringe.Line > 0 ? (($"(unknown @ Ln {stringe.Line}, Col {stringe.Column}): ") + message) : message)
+        {
+            _source = null;
+            _line = stringe.Line;
+            _col = stringe.Column;
+            _index = 0;
         }
     }
 }
