@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Text;
@@ -15,7 +16,7 @@ namespace Rant.Internal.VM
 		/// <summary>
 		/// No
 		/// </summary>
-		public static readonly RantObject No = new RantObject();
+		public static readonly RantObject Null = new RantObject();
 
 		private double _number = 0;
 		private string _string = null;
@@ -63,10 +64,10 @@ namespace Rant.Internal.VM
 		{
 		}
 
-        /// <summary>
-        /// Creates a new RantObject instance with a list value.
-        /// </summary>
-        /// <param name="list">The list to assign to the object.</param>
+		/// <summary>
+		/// Creates a new RantObject instance with a list value.
+		/// </summary>
+		/// <param name="list">The list to assign to the object.</param>
 		public RantObject(List<RantObject> list)
 		{
 			if (list == null) return;
@@ -74,20 +75,20 @@ namespace Rant.Internal.VM
 			_list = list;
 		}
 
-        /// <summary>
-        /// Creates a new RantObject instance with a boolean value.
-        /// </summary>
-        /// <param name="boolean">The boolean value to assign to the object.</param>
+		/// <summary>
+		/// Creates a new RantObject instance with a boolean value.
+		/// </summary>
+		/// <param name="boolean">The boolean value to assign to the object.</param>
 		public RantObject(bool boolean)
 		{
 			Type = RantObjectType.Boolean;
 			_boolean = boolean;
 		}
 
-        /// <summary>
-        /// Creates a new RantObject instance with a string value.
-        /// </summary>
-        /// <param name="str">The string to assign to the object.</param>
+		/// <summary>
+		/// Creates a new RantObject instance with a string value.
+		/// </summary>
+		/// <param name="str">The string to assign to the object.</param>
 		public RantObject(string str)
 		{
 			if (str == null) return;
@@ -95,10 +96,10 @@ namespace Rant.Internal.VM
 			_string = str;
 		}
 
-        /// <summary>
-        /// Creates a new RantObject instance with a decimal number value.
-        /// </summary>
-        /// <param name="num">The number to assign to the object.</param>
+		/// <summary>
+		/// Creates a new RantObject instance with a decimal number value.
+		/// </summary>
+		/// <param name="num">The number to assign to the object.</param>
 		public RantObject(double num)
 		{
 			Type = RantObjectType.Number;
@@ -111,10 +112,10 @@ namespace Rant.Internal.VM
 			_pointer = pointer;
 		}
 
-        /// <summary>
-        /// Creates a new RantObject instance from the specified object.
-        /// </summary>
-        /// <param name="obj">The value to assign to the object.</param>
+		/// <summary>
+		/// Creates a new RantObject instance from the specified object.
+		/// </summary>
+		/// <param name="obj">The value to assign to the object.</param>
 		public RantObject(object obj)
 		{
 			if (obj == null) return;
@@ -151,16 +152,16 @@ namespace Rant.Internal.VM
 			}
 		}
 
-        public RantObject(RantObjectType type)
-        {
-            Type = type;
-        }
+		public RantObject(RantObjectType type)
+		{
+			Type = type;
+		}
 
-        /// <summary>
-        /// Converts the current object to a RantObject of the specified type and returns it.
-        /// </summary>
-        /// <param name="type">The object type to convert to.</param>
-        /// <returns></returns>
+		/// <summary>
+		/// Converts the current object to a RantObject of the specified type and returns it.
+		/// </summary>
+		/// <param name="type">The object type to convert to.</param>
+		/// <returns></returns>
 		public RantObject ConvertTo(RantObjectType type)
 		{
 			if (Type == type) return Clone();
@@ -205,7 +206,7 @@ namespace Rant.Internal.VM
 							case RantObjectType.String:
 								{
 									double num;
-									return double.TryParse(_string, out num) ? new RantObject(num) : No;
+									return double.TryParse(_string, out num) ? new RantObject(num) : Null;
 								}
 						}
 						break;
@@ -237,13 +238,13 @@ namespace Rant.Internal.VM
 					}
 			}
 
-			return No;
+			return Null;
 		}
 
-        /// <summary>
-        /// Returns another RantObject instance with the exact same value as the current instance.
-        /// </summary>
-        /// <returns></returns>
+		/// <summary>
+		/// Returns another RantObject instance with the exact same value as the current instance.
+		/// </summary>
+		/// <returns></returns>
 		public RantObject Clone()
 		{
 			return new RantObject
@@ -257,15 +258,15 @@ namespace Rant.Internal.VM
 			};
 		}
 
-        /// <summary>
-        /// Returns the sum of two RantObjects.
-        /// </summary>
-        /// <param name="a">The first object.</param>
-        /// <param name="b">The second object.</param>
-        /// <returns></returns>
+		/// <summary>
+		/// Returns the sum of two RantObjects.
+		/// </summary>
+		/// <param name="a">The first object.</param>
+		/// <param name="b">The second object.</param>
+		/// <returns></returns>
 		public static RantObject operator +(RantObject a, RantObject b)
 		{
-			switch (a.Type)	// TODO: Cover all cases
+			switch (a.Type) // TODO: Cover all cases
 			{
 				case RantObjectType.Number:
 					{
@@ -289,15 +290,15 @@ namespace Rant.Internal.VM
 					}
 			}
 
-			return No;
+			return Null;
 		}
 
-        /// <summary>
-        /// Subtracts a RantObject from another.
-        /// </summary>
-        /// <param name="a">The object to subtract from.</param>
-        /// <param name="b">The object to subtract.</param>
-        /// <returns></returns>
+		/// <summary>
+		/// Subtracts a RantObject from another.
+		/// </summary>
+		/// <param name="a">The object to subtract from.</param>
+		/// <param name="b">The object to subtract.</param>
+		/// <returns></returns>
 		public static RantObject operator -(RantObject a, RantObject b)
 		{
 			switch (a.Type)
@@ -313,15 +314,15 @@ namespace Rant.Internal.VM
 					}
 			}
 
-			return No;
+			return Null;
 		}
 
-        /// <summary>
-        /// Returns the product of two RantObjects.
-        /// </summary>
-        /// <param name="a">The first object.</param>
-        /// <param name="b">The second object.</param>
-        /// <returns></returns>
+		/// <summary>
+		/// Returns the product of two RantObjects.
+		/// </summary>
+		/// <param name="a">The first object.</param>
+		/// <param name="b">The second object.</param>
+		/// <returns></returns>
 		public static RantObject operator *(RantObject a, RantObject b)
 		{
 			switch (a.Type)
@@ -336,33 +337,33 @@ namespace Rant.Internal.VM
 						break;
 					}
 				case RantObjectType.String:
-				{
-					switch (b.Type)
 					{
-						case RantObjectType.Number:
+						switch (b.Type)
 						{
-							var sb = new StringBuilder();
-							int c = (int)b._number;
-							for (int i = 0; i < c; i++)
-							{
-								sb.Append(a._string);
-							}
-							return new RantObject(sb.ToString());
+							case RantObjectType.Number:
+								{
+									var sb = new StringBuilder();
+									int c = (int)b._number;
+									for (int i = 0; i < c; i++)
+									{
+										sb.Append(a._string);
+									}
+									return new RantObject(sb.ToString());
+								}
 						}
+						break;
 					}
-					break;
-				}
 			}
 
-			return No;
+			return Null;
 		}
 
-        /// <summary>
-        /// Divides one RantObject by another.
-        /// </summary>
-        /// <param name="a">The object to divide.</param>
-        /// <param name="b">The object to divide by.</param>
-        /// <returns></returns>
+		/// <summary>
+		/// Divides one RantObject by another.
+		/// </summary>
+		/// <param name="a">The object to divide.</param>
+		/// <param name="b">The object to divide by.</param>
+		/// <returns></returns>
 		public static RantObject operator /(RantObject a, RantObject b)
 		{
 			switch (a.Type)
@@ -372,19 +373,47 @@ namespace Rant.Internal.VM
 						switch (b.Type)
 						{
 							case RantObjectType.Number:
+								if (b._number == 0.0)
+									throw new DivideByZeroException($"Attempted to divide {a._number} by zero.");
 								return new RantObject(a._number / b._number);
 						}
 						break;
 					}
 			}
 
-			return No;
+			return Null;
 		}
 
-        /// <summary>
-        /// Returns a string representation of the current RantObject.
-        /// </summary>
-        /// <returns></returns>
+		/// <summary>
+		/// Gets the remainder from dividing a by b.
+		/// </summary>
+		/// <param name="a">The object to divide.</param>
+		/// <param name="b">The object to divide by.</param>
+		/// <returns></returns>
+		public static RantObject operator %(RantObject a, RantObject b)
+		{
+			switch (a.Type)
+			{
+				case RantObjectType.Number:
+					{
+						switch (b.Type)
+						{
+							case RantObjectType.Number:
+								if (b._number == 0.0)
+									throw new DivideByZeroException($"Attempted to divide {a._number} by zero.");
+								return new RantObject(a._number % b._number);
+						}
+						break;
+					}
+			}
+
+			return Null;
+		}
+
+		/// <summary>
+		/// Returns a string representation of the current RantObject.
+		/// </summary>
+		/// <returns></returns>
 		public override string ToString()
 		{
 			switch (Type)
@@ -395,8 +424,8 @@ namespace Rant.Internal.VM
 					return _string;
 				case RantObjectType.Null:
 					return "null";
-                case RantObjectType.Undefined:
-                    return "???";
+				case RantObjectType.Undefined:
+					return "???";
 				case RantObjectType.Number:
 					return _number.ToString(CultureInfo.InvariantCulture);
 				case RantObjectType.List:
@@ -430,6 +459,70 @@ namespace Rant.Internal.VM
 					|| value is float
 					|| value is double
 					|| value is decimal;
+		}
+
+		public void Compare(RantObject b, out int result, out bool comparable)
+		{
+			const int equal = 0;
+			const int greater = 1;
+			const int less = -1;
+			const int mismatch = 2;
+			comparable = true;
+			switch (Type)
+			{
+				case RantObjectType.Number:
+					switch (b.Type)
+					{
+						case RantObjectType.Number:
+							if (_number == b._number) result = equal;
+							if (_number < b._number) result = less;
+							result = greater;
+							return;
+						case RantObjectType.String:
+							result = _number.ToString(CultureInfo.InvariantCulture) == b._string ? equal : mismatch;
+							return;
+					}
+					break;
+				case RantObjectType.Boolean:
+					switch (b.Type)
+					{
+						case RantObjectType.Boolean:
+							result = _boolean == b._boolean ? equal : mismatch;
+							return;
+					}
+					break;
+				case RantObjectType.Null:
+					switch (b.Type)
+					{
+						case RantObjectType.Null:
+							result = equal;
+							return;
+					}
+					break;
+				case RantObjectType.String:
+					switch (b.Type)
+					{
+						case RantObjectType.String:
+							result = _string == b._string ? equal : mismatch;
+							return;
+						case RantObjectType.Number:
+							result = _string == b._number.ToString(CultureInfo.InvariantCulture) ? equal : mismatch;
+							return;
+					}
+					break;
+				case RantObjectType.Pointer:
+					switch (b.Type)
+					{
+						case RantObjectType.Pointer:
+							result = _pointer == b._pointer ? equal : mismatch;
+							return;
+					}
+					break;
+				default:
+					comparable = false;
+					result = mismatch;
+					return;
+			}
 		}
 	}
 }

@@ -29,6 +29,10 @@
         /// Represents a lack of a value.
         /// </summary>
         Null,
+		/// <summary>
+		/// Represents a function.
+		/// </summary>
+		Function,
         /// <summary>
         /// Represents a lack of any variable at all.
         /// </summary>

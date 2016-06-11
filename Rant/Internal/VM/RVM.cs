@@ -18,10 +18,13 @@ namespace Rant.Internal.VM
 		public readonly Limit SizeLimit;
 		public RantFormat Format;
 
+		private readonly HashSet<CallFrame> _frameCache = new HashSet<CallFrame>(); 
+
 		private readonly RantProgram _program;
 		private readonly long _timeout = 0;
 		private readonly Stack<CallFrame> _callStack = new Stack<CallFrame>();
-		private readonly Stack<RantObject> _locals = new Stack<RantObject>(4);
+		private readonly Stack<RantObject> _stack = new Stack<RantObject>(4);
+		private readonly Stack<RantObject[]> _locals = new Stack<RantObject[]>(); 
 		private readonly Stack<RantObject> _args = new Stack<RantObject>();
 		private readonly Stack<OutputWriter> _writers = new Stack<OutputWriter>();
 
@@ -71,6 +74,8 @@ namespace Rant.Internal.VM
 			RantOpCode* ptrCodeOps;
 			byte* ptrCodeBytes;
 			RantObject roa, rob;
+			int cmp = 0;
+			bool cmpValid = false;
 
 			try
 			{
@@ -109,10 +114,56 @@ namespace Rant.Internal.VM
 									_writers.Peek().CloseChannel();
 									break;
 								case RantOpCode.Print:
-									Print(_locals.Pop());
+									Print(_stack.Pop());
 									break;
 								case RantOpCode.Return:
 									_callStack.Pop();
+									break;
+								case RantOpCode.PushString:
+									_stack.Push(new RantObject(_program.Data.GetString(*((int*)&ptrCodeBytes[frame.Position]))));
+									frame.Position += sizeof(int);
+									break;
+								case RantOpCode.PushNum:
+									_stack.Push(new RantObject(*((double*)&ptrCodeBytes[frame.Position])));
+									frame.Position += sizeof(double);
+									break;
+								case RantOpCode.Concat:
+									rob = _stack.Pop();
+									roa = _stack.Pop();
+									_stack.Push(new RantObject(String.Concat(roa, rob)));
+									break;
+								case RantOpCode.Add:
+									rob = _stack.Pop();
+									roa = _stack.Pop();
+									_stack.Push(roa + rob);
+									break;
+								case RantOpCode.Subtract:
+									rob = _stack.Pop();
+									roa = _stack.Pop();
+									_stack.Push(roa - rob);
+									break;
+								case RantOpCode.Multiply:
+									rob = _stack.Pop();
+									roa = _stack.Pop();
+									_stack.Push(roa * rob);
+									break;
+								case RantOpCode.Divide:
+									rob = _stack.Pop();
+									roa = _stack.Pop();
+									_stack.Push(roa / rob);
+									break;
+								case RantOpCode.Modulo:
+									rob = _stack.Pop();
+									roa = _stack.Pop();
+									_stack.Push(roa % rob);
+									break;
+								case RantOpCode.Jump:
+									frame.Position = *((int*)&ptrCodeBytes[frame.Position]);
+									continue;
+								case RantOpCode.Compare:
+									rob = _stack.Pop();
+									roa = _stack.Pop();
+									roa.Compare(rob, out cmp, out cmpValid);
 									break;
 							}
 							frame.Position++;
