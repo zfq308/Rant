@@ -28,11 +28,9 @@ namespace Rant.Internal.VM.Compiler.Parselets
                 // replacer
                 case R.Regex:
                     throw new NotImplementedException("Sorry, replacers aren't implemented yet :(");
-                    break;
                 // script
                 case R.At:
                     throw new NotImplementedException("Sorry, scripts aren't implemented yet :(");
-                    break;
             }
             yield break;
         }

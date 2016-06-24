@@ -8,17 +8,19 @@ namespace Rant.Internal.VM
 		private readonly string[] _stringTable;
 		private readonly Regex[] _regexTable;
 		private readonly BlockData[] _blockDataTable;
+		private readonly RantProgram[] _references;
 
         /// <summary>
         /// The string table.
         /// </summary>
         public string[] StringTable => _stringTable;
 
-		public RantProgramData(string[] stringTable, Regex[] regexTable, BlockData[] blockDataTable)
+		public RantProgramData(string[] stringTable, Regex[] regexTable, BlockData[] blockDataTable, RantProgram[] references)
 		{
 			_stringTable = stringTable;
 			_blockDataTable = blockDataTable;
 			_regexTable = regexTable;
+			_references = references;
 		}
 
 		public string GetString(int index)
@@ -37,6 +39,12 @@ namespace Rant.Internal.VM
 		{
 			if (index < 0 || index >= _blockDataTable.Length) return null;
 			return _blockDataTable[index];
+		}
+
+		public RantProgram GetReference(int index)
+		{
+			if (index < 0 || index >= _references.Length) return null;
+			return _references[index];
 		}
 	}
 }

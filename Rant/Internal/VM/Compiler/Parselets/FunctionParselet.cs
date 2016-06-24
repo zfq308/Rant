@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Rant.Internal.VM.Instructions;
+
 using Rant.Internal.Stringes;
+using Rant.Internal.VM.Instructions;
 
 namespace Rant.Internal.VM.Compiler.Parselets
 {
@@ -59,7 +57,7 @@ namespace Rant.Internal.VM.Compiler.Parselets
             yield break;
         }
 
-        private void CheckArgumentCount(TokenReader reader, Stringes.Stringe name, int expected, int actual)
+        private void CheckArgumentCount(TokenReader reader, Stringe name, int expected, int actual)
         {
             if(expected != actual)
                 throw new RantCompilerException(

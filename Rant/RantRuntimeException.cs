@@ -15,6 +15,7 @@ namespace Rant
         private readonly int _line;
         private readonly int _col;
         private readonly int _index;
+	    private readonly int _address;
         private readonly RantProgram _source;
 
         /// <summary>
@@ -32,6 +33,11 @@ namespace Rant
         /// </summary>
         public int Index => _index;
 
+		/// <summary>
+		/// The execution address at which the error occurred.
+		/// </summary>
+	    public int Address => _address;
+
         /// <summary>
         /// The source of the error.
         /// </summary>
@@ -40,13 +46,14 @@ namespace Rant
         // for compatibility, until we finish v3.
         private RantPattern _sourcePattern;
 
-        internal RantRuntimeException(RantProgram source, int line, int col, int index, string message = "A generic runtime error was encountered.") 
+        internal RantRuntimeException(RantProgram source, int line, int col, int index, int address, string message = "A generic runtime error was encountered.") 
             : base(line > 0 ? (($"({source.Name} @ Ln {line}, Col {col}): ") + message) : message)
         {
             _source = source;
 	        _line = line;
 	        _col = col;
 	        _index = index;
+	        _address = address;
         }
 
         internal RantRuntimeException(RantPattern source, int line, int col, int index, string message = "A generic runtime error was encountered.")

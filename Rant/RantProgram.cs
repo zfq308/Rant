@@ -33,7 +33,12 @@ namespace Rant
             _compiledProgram = compiledProgram;
         }
 
-        public void Save(string outputFile)
+		internal RantProgram GetReferencedAssembly(int index)
+		{
+			return index == -1 ? this : _data.GetReference(index);
+		}
+
+		public void Save(string outputFile)
         {
             using(var file = File.Open(outputFile, FileMode.Create))
             {
@@ -88,17 +93,17 @@ namespace Rant
                 var str = Encoding.UTF8.GetString(reader.ReadBytes(stringLength));
                 table[i] = str;
             }
-            var programData = new RantProgramData(table, new Regex[0], new BlockData[0]);
+            var programData = new RantProgramData(table, new Regex[0], new BlockData[0], new RantProgram[0]);
             return new RantProgram(name, bytecode, programData, data);
         }
 
 		public static RantProgram CompileString(RantEngine engine, string source, bool debug = true)
         {
-            var compiler = new Rant.Internal.VM.Compiler.RantCompiler("Pattern", source);
+            var compiler = new RantCompiler("Pattern", source);
             byte[] bytecode;
             List<string> stringTable;
             var compiledProgram = compiler.Compile(debug, out bytecode, out stringTable);
-            var data = new RantProgramData(stringTable.ToArray(), new Regex[0], new BlockData[0]);
+            var data = new RantProgramData(stringTable.ToArray(), new Regex[0], new BlockData[0], new RantProgram[0]);
             return new RantProgram("Pattern", bytecode, data, compiledProgram);
         }
 

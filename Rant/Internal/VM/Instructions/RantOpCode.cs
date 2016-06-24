@@ -90,10 +90,10 @@
 		/// </summary>
 		PopSubs = 0x10,
 		/// <summary>
-		/// Calls the specified subroutine.
-		/// <para>callsub [int sub_id] [int max_locals]</para>
+		/// Creates a new stack frame with the specified argument count and continues execution at the specified address.
+		/// <para>call [int assembly_id] [int address] [byte arg_count]</para>
 		/// </summary>
-		CallSub = 0x11,
+		Call = 0x11,
 		/// <summary>
 		/// Assigns a string constant to a subroutine argument register.
 		/// <para>argstr [int table_index] [int arg_id]</para>
@@ -185,7 +185,7 @@
 		/// Jumps to the specified address if A is not equal to B.
 		/// <para>jne [int address]</para>
 		/// </summary>
-		JumpnotEqual = 0x23,
+		JumpNotEqual = 0x23,
 		/// <summary>
 		/// Jumps to the specified address if A is greater than B.
 		/// <para>jgt [int address]</para>
@@ -233,10 +233,5 @@
 		/// <para>pushaddr [int address]</para>
 		/// </summary>
 		PushAddress = 0x2d,
-		/// <summary>
-		/// Calls a Richard function.
-		/// <para>call [int func_location]</para>
-		/// </summary>
-		Call,
 	}
 }

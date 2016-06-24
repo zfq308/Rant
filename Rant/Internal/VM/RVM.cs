@@ -7,6 +7,7 @@ using System.Runtime.CompilerServices;
 using Rant.Formats;
 using Rant.Internal.Engine;
 using Rant.Internal.VM.Instructions;
+using Rant.Internal.VM.ObjectModel;
 using Rant.Internal.VM.Output;
 
 namespace Rant.Internal.VM
@@ -18,17 +19,18 @@ namespace Rant.Internal.VM
 		public readonly Limit SizeLimit;
 		public RantFormat Format;
 
-		private readonly HashSet<CallFrame> _frameCache = new HashSet<CallFrame>(); 
+		private readonly HashSet<Frame> _frameCache = new HashSet<Frame>(); 
 
 		private readonly RantProgram _program;
 		private readonly long _timeout = 0;
-		private readonly Stack<CallFrame> _callStack = new Stack<CallFrame>();
-		private readonly Stack<RantObject> _stack = new Stack<RantObject>(4);
-		private readonly Stack<RantObject[]> _locals = new Stack<RantObject[]>(); 
-		private readonly Stack<RantObject> _args = new Stack<RantObject>();
+		private readonly CallStack _stack;
 		private readonly Stack<OutputWriter> _writers = new Stack<OutputWriter>();
 
 		private int _dbgLine, _dbgCol, _dbgIndex;
+
+		public CallStack Stack => _stack;
+
+		public RantProgram Program => _program;
 
 		public void Print(object value)
 		{
@@ -38,6 +40,7 @@ namespace Rant.Internal.VM
 		public RVM(RantProgram program, long timeoutMilliseconds, RNG rng, RantFormat format, int limit)
 		{
 			_program = program;
+			_stack = new CallStack(this);
 			_timeout = timeoutMilliseconds;
 			RNG = rng;
 			StartingGen = rng.Generation;
@@ -65,15 +68,16 @@ namespace Rant.Internal.VM
 
 		public void RuntimeError(string message)
 		{
-			throw new RantRuntimeException(_program, _dbgLine, _dbgCol, _dbgIndex, message);
+			throw new RantRuntimeException(_program, _dbgLine, _dbgCol, _dbgIndex, _stack.Position, message);
 		}
 
 		public RantOutput Run()
 		{
-			CallFrame frame;
+			Frame frame;
 			RantOpCode* ptrCodeOps;
 			byte* ptrCodeBytes;
 			RantObject roa, rob;
+			int ax, ay, az;
 			int cmp = 0;
 			bool cmpValid = false;
 
@@ -164,6 +168,41 @@ namespace Rant.Internal.VM
 									rob = _stack.Pop();
 									roa = _stack.Pop();
 									roa.Compare(rob, out cmp, out cmpValid);
+									break;
+								case RantOpCode.JumpEqual:
+									ax = *((int*)&ptrCodeBytes[frame.Position]);
+									frame.Position += sizeof(int);
+									if (cmpValid && cmp == 0) frame.Position = ax;
+									break;
+								case RantOpCode.JumpNotEqual:
+									ax = *((int*)&ptrCodeBytes[frame.Position]);
+									frame.Position += sizeof(int);
+									if (cmpValid && cmp != 0) frame.Position = ax;
+									break;
+								case RantOpCode.JumpGreaterThan:
+									ax = *((int*)&ptrCodeBytes[frame.Position]);
+									frame.Position += sizeof(int);
+									if (cmpValid && cmp == 1) frame.Position = ax;
+									break;
+								case RantOpCode.JumpGreaterEqual:
+									ax = *((int*)&ptrCodeBytes[frame.Position]);
+									frame.Position += sizeof(int);
+									if (cmpValid && cmp > -1) frame.Position = ax;
+									break;
+								case RantOpCode.JumpLessThan:
+									ax = *((int*)&ptrCodeBytes[frame.Position]);
+									frame.Position += sizeof(int);
+									if (cmpValid && cmp == -1) frame.Position = ax;
+									break;
+								case RantOpCode.JumpLessEqual:
+									ax = *((int*)&ptrCodeBytes[frame.Position]);
+									frame.Position += sizeof(int);
+									if (cmpValid && cmp < 1) frame.Position = ax;
+									break;
+								case RantOpCode.JumpNotZero:
+									ax = *((int*)&ptrCodeBytes[frame.Position]);
+									frame.Position += sizeof(int);
+									if (cmpValid && cmp == 0) frame.Position = ax;
 									break;
 							}
 							frame.Position++;

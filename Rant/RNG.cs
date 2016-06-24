@@ -182,15 +182,12 @@ namespace Rant
             unchecked
             {
                 _hashState.Init(s, g);
-                for (int i = 0; i < 8; i++)
-                {
-                    _hashState.HashUnsigned =
-                        (_hashState.HashUnsigned + 31 
-                        * Table[((_hashState.Seed ^ _hashState.HashUnsigned) >> (i * 8)) & 0xff].RotR(i) + 47 
-                        * Table[((_hashState.Generation ^ _hashState.HashUnsigned) >> (i * 8)) & 0xff].RotL(i) + 11)
-                        * 6364136223846793005;
-                }
-                return _hashState.HashSigned;
+				_hashState.HashUnsigned =
+						(_hashState.HashUnsigned + 31
+						* Table[((_hashState.Seed ^ _hashState.HashUnsigned) << 17) & 0xff].RotR(11) + 47
+						* Table[((_hashState.Generation ^ _hashState.HashUnsigned) >> 23) & 0xff].RotL(37) + 11)
+						* 6364136223846793005;
+				return _hashState.HashSigned;
             }
         }
 

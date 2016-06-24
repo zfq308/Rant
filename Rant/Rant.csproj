@@ -235,8 +235,13 @@
     <Compile Include="Internal\Engine\Output\OutputChainArticleBuffer.cs" />
     <Compile Include="Internal\Engine\Output\OutputChainBuffer.cs" />
     <Compile Include="Internal\Engine\Output\OutputWriter.cs" />
+    <Compile Include="Internal\VM\CallStack.cs" />
     <Compile Include="Internal\VM\Compiler\Parselets\FunctionParselet.cs" />
     <Compile Include="Internal\VM\Compiler\Parselets\TagParselet.cs" />
+    <Compile Include="Internal\VM\ObjectModel\RantNull.cs" />
+    <Compile Include="Internal\VM\ObjectModel\RantNumber.cs" />
+    <Compile Include="Internal\VM\ObjectModel\RantString.cs" />
+    <Compile Include="Internal\VM\ObjectModel\RantUndefined.cs" />
     <Compile Include="Internal\VM\Output\OutputChain.cs" />
     <Compile Include="Internal\VM\Output\OutputChainArticleBuffer.cs" />
     <Compile Include="Internal\VM\Output\OutputChainBuffer.cs" />
@@ -341,10 +346,10 @@
     <Compile Include="Internal\VM\Compiler\TokenReader.cs" />
     <Compile Include="Internal\VM\Instructions\RantOpCode.cs" />
     <Compile Include="Internal\VM\BlockData.cs" />
-    <Compile Include="Internal\VM\CallFrame.cs" />
+    <Compile Include="Internal\VM\Frame.cs" />
+    <Compile Include="Internal\VM\Handle.cs" />
     <Compile Include="Internal\VM\RantProgramData.cs" />
-    <Compile Include="Internal\VM\RantObject.cs" />
-    <Compile Include="Internal\VM\RantObjectType.cs" />
+    <Compile Include="Internal\VM\ObjectModel\IRantObject.cs" />
     <Compile Include="Internal\VM\RVM.cs" />
     <Compile Include="RantArgAttribute.cs" />
     <Compile Include="RantCompilerException.cs" />
